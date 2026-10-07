@@ -1,0 +1,15 @@
+{
+  "_comment": "stock-hots 数据源配置。urls 覆盖内置接口地址（key 见 docs/10-程序化取数.md）；disabled 填平台 key 禁用该源（不请求、不进综合）；aggregator_page 为聚合页兜底入口。删掉本文件或清空对象则全部回落内置默认。",
+  "aggregator_page": "http://wzslinker.top/companys/情绪为王-01八一热榜.html",
+  "urls": {
+    "em": "https://emappdata.eastmoney.com/stockrank/getAllCurrentList",
+    "ths": "https://eq.10jqka.com.cn/open/api/hot_list/v1/hot_stock/a/hour/data.txt?_=1",
+    "kpl": "http://wzslinker.top/companys/api-proxy.php?type=longhuvip&endpoint=get_hot_phb",
+    "tdx": "http://wzslinker.top/companys/api-proxy.php?type=tdx",
+    "xq": "http://wzslinker.top/companys/api-proxy.php?type=xueqiu&size=100&_type=10&_=1",
+    "cls": "http://wzslinker.top/companys/api-proxy.php?type=cls_hot_stock",
+    "tgb": "http://wzslinker.top/companys/api-proxy.php?type=tgb_notice&_=1",
+    "dzh": "https://imsearch.dzh.com.cn/stock/top?size=100&type=0&time=h&_=1"
+  },
+  "disabled": []
+}

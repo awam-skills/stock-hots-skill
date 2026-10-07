@@ -17,10 +17,21 @@
   候选：至少 3 个平台上榜；得分 = 上榜平台名次平均值（越小越热）；
   同分时上榜平台数多的优先；综合前十 = 得分升序取前 10。
 
+数据源配置（sources.json，可缺省）：
+  优先读取脚本上级目录的 sources.json（--config 可指定其它路径）：
+    urls              覆盖内置接口地址（key 同上表）
+    disabled          禁用指定平台（不请求、不进综合）
+    aggregator_page   聚合页兜底入口
+  配置缺省或键缺失时回落内置默认（DEFAULT_URLS）。
+
+失效自检：
+  --check  逐平台探测接口连通性与解析行数，并探活聚合页；
+           任一启用平台 FAIL/解析为空或聚合页不可达时退出码 1（禁用平台不计）。
+
 输出：
   --json         输出简要 JSON（综合前十 + 各平台 TOP10 + 快照时间）到 stdout
   --json <file>  同时写入文件
-  不带 --json    打印人类可读的综合前十列表
+  不带 --json    打印人类可读的综合前十列表（末尾明确上报不可用/禁用平台）
 """
 import argparse
 import json
@@ -28,6 +39,8 @@ import re
 import sys
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from urllib.parse import quote, urlsplit, urlunsplit
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -60,10 +73,51 @@ URLS = {
     "dzh": "https://imsearch.dzh.com.cn/stock/top?size=100&type=0&time=h&_=1",
 }
 
+CONFIG_FILENAME = "sources.json"
+DEFAULT_AGGREGATOR_PAGE = "http://wzslinker.top/companys/情绪为王-01八一热榜.html"
+
+# 状态值：ok / disabled / empty / fail: <原因>
+_STATUS_ZH = {"disabled": "已禁用", "empty": "解析为空"}
+
+
+def load_sources_config(path=None):
+    """读取数据源配置，返回 (urls, disabled, aggregator_page, cfg_path)。
+
+    - path 为空时探测 `脚本上级目录/sources.json`，存在才读，否则全部用内置默认；
+    - urls 只接受已知平台 key 的覆盖，未知 key 告警并忽略；
+    - 解析失败时告警并回落内置默认（不让坏配置直接打断取数）。
+    """
+    cfg_path = Path(path) if path else Path(__file__).resolve().parent.parent / CONFIG_FILENAME
+    urls = dict(URLS)
+    disabled = set()
+    aggregator_page = DEFAULT_AGGREGATOR_PAGE
+    if cfg_path.is_file():
+        try:
+            cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            print("warn: %s 解析失败（%s），使用内置默认" % (cfg_path.name, exc), file=sys.stderr)
+            cfg = {}
+        for k, v in (cfg.get("urls") or {}).items():
+            if k in urls and isinstance(v, str) and v:
+                urls[k] = v
+            else:
+                print("warn: 忽略未知平台 key %r" % k, file=sys.stderr)
+        disabled = {k for k in (cfg.get("disabled") or []) if k in urls}
+        for k in (cfg.get("disabled") or []):
+            if k not in urls:
+                print("warn: disabled 里的未知平台 key %r 已忽略" % k, file=sys.stderr)
+        page = cfg.get("aggregator_page")
+        if isinstance(page, str) and page:
+            aggregator_page = page
+        return urls, disabled, aggregator_page, cfg_path
+    return urls, disabled, aggregator_page, None
+
 
 def fetch_json(url, method="GET", timeout=20):
     if method == "POST":
-        req = urllib.request.Request(url, data=b"{}", headers={**UA, "Content-Type": "application/json"})
+        # em 需要 pageNo/pageSize 才返回 100 行；空 body 只回 10 行
+        body = b'{"pageNo":1,"pageSize":100}'
+        req = urllib.request.Request(url, data=body, headers={**UA, "Content-Type": "application/json"})
     else:
         req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -200,16 +254,31 @@ PARSERS = {"em": parse_em, "ths": parse_ths, "kpl": parse_kpl, "tdx": parse_tdx,
            "xq": parse_xq, "cls": parse_cls, "tgb": parse_tgb, "dzh": parse_dzh}
 
 
-def fetch_all(timeout=20):
-    """返回 {platform_key: [{'code','name','rank',...}]}，失败平台置空列表。"""
+def fetch_all(urls=None, disabled=None, timeout=20):
+    """返回 (platform_lists, status)。
+
+    platform_lists: {platform_key: [rows...]}，失败/禁用/解析为空的平台为空列表；
+    status: {platform_key: 'ok' | 'disabled' | 'empty' | 'fail: <原因>'}，
+    供调用方与输出明确上报不可用平台（降级链末端不再静默吞错）。
+    """
+    urls = urls or URLS
+    disabled = disabled or set()
     out = {}
+    status = {}
     for key in ORDER:
-        try:
-            obj = fetch_json(URLS[key], method="POST" if key == "em" else "GET", timeout=timeout)
-            out[key] = PARSERS[key](obj)
-        except Exception:
+        if key in disabled:
             out[key] = []
-    return out
+            status[key] = "disabled"
+            continue
+        try:
+            obj = fetch_json(urls[key], method="POST" if key == "em" else "GET", timeout=timeout)
+            rows = PARSERS[key](obj)
+            out[key] = rows
+            status[key] = "ok" if rows else "empty"
+        except Exception as exc:
+            out[key] = []
+            status[key] = "fail: %s" % exc
+    return out, status
 
 
 def build_ranks(platform_lists):
@@ -290,23 +359,77 @@ def now_iso():
     return datetime.now(tz).strftime("%Y-%m-%dT%H:%M:%S+08:00")
 
 
+def safe_url(url):
+    """对 URL 的 path 做百分号编码（urllib 不接受含中文等非 ASCII 的 URL）。"""
+    parts = urlsplit(url)
+    path = quote(parts.path, safe="/")
+    query = quote(parts.query, safe="&=%_+")
+    return urlunsplit((parts.scheme, parts.netloc, path, query, parts.fragment))
+
+
+def check(config_path=None, timeout=20):
+    """失效自检：逐平台探测接口（请求 + 解析行数）并探活聚合页。
+
+    返回 True/False；启用平台 FAIL 或解析为空、聚合页不可达均算失效
+    （解析为空通常意味着接口结构变了，正是本检查要抓的时效性问题）。
+    """
+    urls, disabled, aggregator_page, cfg_path = load_sources_config(config_path)
+    print("配置来源：%s" % (cfg_path if cfg_path else "内置默认（未找到 %s）" % CONFIG_FILENAME))
+    ok_all = True
+    for key in ORDER:
+        label = PLATFORMS[key][0]
+        if key in disabled:
+            print("  %-4s %-8s DISABLED（已在配置中禁用）" % (key, label))
+            continue
+        try:
+            obj = fetch_json(urls[key], method="POST" if key == "em" else "GET", timeout=timeout)
+            n = len(PARSERS[key](obj))
+            if n:
+                print("  %-4s %-8s OK      rows=%d" % (key, label, n))
+            else:
+                ok_all = False
+                print("  %-4s %-8s EMPTY   解析为空（疑似结构变动）" % (key, label))
+        except Exception as exc:
+            ok_all = False
+            print("  %-4s %-8s FAIL    %s" % (key, label, exc))
+    try:
+        req = urllib.request.Request(safe_url(aggregator_page), headers=UA)
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            print("  agg  %-8s OK      HTTP %d" % ("聚合页", resp.status))
+    except Exception as exc:
+        ok_all = False
+        print("  agg  %-8s FAIL    %s" % ("聚合页", exc))
+    print("自检结果：%s" % ("通过" if ok_all else "存在失效源，docs 结论可能已过期"))
+    return ok_all
+
+
 def main():
     ap = argparse.ArgumentParser(description="stock-hots 程序化取数")
     ap.add_argument("--json", nargs="?", const="-", default=None, help="输出简要 JSON（- 或省略参数为 stdout；可跟文件路径）")
     ap.add_argument("--top", type=int, default=10, help="综合前十取前 N（默认 10）")
     ap.add_argument("--timeout", type=int, default=20)
+    ap.add_argument("--config", default=None, help="数据源配置文件（默认：脚本上级目录 sources.json，缺省用内置默认）")
+    ap.add_argument("--check", action="store_true", help="失效自检：逐平台探测接口 + 探活聚合页，不做综合计算")
     args = ap.parse_args()
 
-    platform_lists = fetch_all(timeout=args.timeout)
+    if args.check:
+        sys.exit(0 if check(args.config, timeout=args.timeout) else 1)
+
+    urls, disabled, _aggregator_page, cfg_path = load_sources_config(args.config)
+    platform_lists, status = fetch_all(urls=urls, disabled=disabled, timeout=args.timeout)
     stocks = build_ranks(platform_lists)
     top = top10(stocks, n=args.top)
     pt = platform_top(platform_lists, stocks)
+    ok_platforms = [k for k in ORDER if status[k] == "ok"]
 
     payload = {
         "source": "wzslinker-8-platform-apis",
+        "config": str(cfg_path) if cfg_path else "builtin-defaults",
         "snapshot_time": now_iso(),
         "algorithm": "avg-rank (mean of present platform ranks; more platforms first)",
         "depths": {k: PLATFORMS[k][1] for k in ORDER},
+        "platform_status": status,
+        "ok_platforms": ok_platforms,
         "top" + str(args.top): top,
         "platform_top": pt,
     }
@@ -324,6 +447,15 @@ def main():
         for it in top:
             ranks = " ".join("%s:%s" % (PLATFORMS[k][0], v) if v is not None else "%s:-" % PLATFORMS[k][0] for k, v in it["platforms"].items())
             print("%2d  %s  %s  %s" % (it["rank"], it["name"], it["code"], ranks))
+        bad = [k for k in ORDER if status[k] != "ok"]
+        if bad:
+            parts = []
+            for k in bad:
+                reason = _STATUS_ZH.get(status[k], status[k])
+                parts.append("%s（%s）" % (PLATFORMS[k][0], reason))
+            print("不可用平台：%s" % "、".join(parts))
+        if len(ok_platforms) < 3:
+            print("警告：可用平台不足 3 个，综合口径（≥3 平台上榜）无候选；请检查 sources.json 或改走聚合页/直连路径。")
 
 
 if __name__ == "__main__":

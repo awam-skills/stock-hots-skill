@@ -10,9 +10,9 @@
 |------|------|------|---------|---------|
 | WzSLinker 聚合页 | 聚合源 | 浏览器渲染读 DOM | 8 平台共 243 只 | ✅ 实际抓取验证（2026-10-06） |
 | 同花顺 | 直连接口 | `eq.10jqka.com.cn/open/api/hot_list/v1/hot_stock/a/hour/data.txt` | 前 100 | ✅ 浏览器抓包 + 脚本实测（2026-10-06） |
-| 通达信 | 代理接口 | `api-proxy.php?type=tdx` | 前 100 | ✅ 浏览器抓包 + 脚本实测 |
-| 东方财富 | 直连接口 | `emappdata.eastmoney.com/stockrank/getAllCurrentList`（POST） | 前 100 | ✅ 浏览器抓包 + 脚本实测 |
-| 财联社 | 代理接口 | `api-proxy.php?type=cls_hot_stock` | 前 30 | ✅ 浏览器抓包 + 脚本实测 |
+| 通达信 | 代理接口 | `api-proxy.php?type=tdx` | 前 100 | ✅ 浏览器抓包 + 脚本实测（2026-10-06） |
+| 东方财富 | 直连接口 | `emappdata.eastmoney.com/stockrank/getAllCurrentList`（POST，需 `{"pageNo":1,"pageSize":100}`） | 前 100 | ✅ 浏览器抓包 + 脚本实测（2026-10-06；空 body 仅回 10 行，2026-10-08 复测修正） |
+| 财联社 | 代理接口 | `api-proxy.php?type=cls_hot_stock` | 前 30 | ✅ 浏览器抓包 + 脚本实测（2026-10-06；直连 API 已失效，见 [05-财联社.md](05-财联社.md)） |
 | 开盘啦 | 代理接口 | `api-proxy.php?type=longhuvip&endpoint=get_hot_phb` | 前 50 | ✅ 浏览器抓包 + 脚本实测 |
 | 淘股吧 | 代理接口 | `api-proxy.php?type=tgb_notice` | 前 50 | ✅ 浏览器抓包 + 脚本实测 |
 | 雪球 | 代理接口 | `api-proxy.php?type=xueqiu&size=100&_type=10` | 前 100 | ✅ 浏览器抓包 + 脚本实测 |
@@ -20,6 +20,18 @@
 | 选股宝 | — | — | — | ❌ 反爬（首页 / /hot / /rank/hot 均为空壳），且用户明确不采用 |
 
 > 注：除 WzSLinker 聚合页外，8 个平台均有可直接 HTTP 请求的榜单接口（详见 [10-程序化取数.md](10-程序化取数.md)）。聚合页页面真实请求即这些接口，已通过浏览器 `network_requests()` 抓包确认为权威来源。
+
+## 时效性自检
+
+接口随时可能变更（限流、参数失效、结构变动）。定期或每次关键任务前运行：
+
+```powershell
+python ../scripts/fetch_top10.py --check   # 逐平台探测 + 聚合页探活；存在失效源时 exit 1
+```
+
+- 判失效：启用平台请求失败（FAIL）或解析为空（EMPTY，疑似结构变动）、聚合页不可达；配置中 `disabled` 的平台不计；
+- 发现失效源时：优先改仓库根 `sources.json`（换接口地址 / 临时禁用平台），再跑 `--check` 验证；接口取法细节见对应平台文档；
+- 日常取数也会如实上报：人类可读输出末尾打印「不可用平台：…（原因）」，JSON 含 `platform_status` / `ok_platforms`。
 
 ## 推荐流程
 

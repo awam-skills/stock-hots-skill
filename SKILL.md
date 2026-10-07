@@ -1,6 +1,6 @@
 ---
 name: stock-hots
-version: 0.0.1
+version: 0.0.2
 description: 获取并聚合多平台热门股票榜单（东方财富/同花顺/通达信/淘股吧/财联社/开盘啦/雪球/大智慧），输出综合前十与各平台 TOP-N。用户要热门股票、热榜排行、多平台榜单对比或榜单数据汇总时使用。
 disable-model-invocation: true
 ---
@@ -11,6 +11,13 @@ disable-model-invocation: true
 
 - **程序化（首选，自动化/定时任务用）**：运行 `scripts/fetch_top10.py`，纯 HTTP 请求 8 平台榜单接口，输出综合前十 + 简要 JSON（`--json`），不依赖浏览器。
 - **聚合页（完整榜单用）**：WzSLinker 八合一聚合页，一次拿到 8 平台排名 + 综合名次 + 行情/资金/题材列。聚合页不可用时按 `docs/` 各平台文档直连兜底。
+
+## 数据源配置（sources.json，可缺省）
+
+- 仓库根 `sources.json` 集中管理接口地址：`urls`（覆盖内置 8 平台接口）、`disabled`（禁用平台）、`aggregator_page`（聚合页兜底入口）；
+- 配置缺省、缺键或解析失败时自动回落脚本内置默认（`load_sources_config` 会告警但不中断），零配置即可用；
+- `--config <path>` 可指定其它配置文件；未知平台 key 告警并忽略；
+- 接口结构变动时只改 `sources.json`，不动脚本；改完跑 `--check` 验证。
 
 ## 何时使用
 
@@ -24,8 +31,9 @@ disable-model-invocation: true
 - `docs/01-聚合源-wzslinker.md`：聚合页结构与读取方式（完整榜单路径）
 - `docs/02~09-<平台>.md`：各平台直连取法（页面 / 接口 / 注意事项）
 - `docs/10-程序化取数.md`：`fetch_top10.py` 用法、8 平台接口清单与综合口径
-- `scripts/fetch_hot_rank.py`：示例取数脚本（财联社 API + 聚合页探活）
+- `scripts/fetch_hot_rank.py`：示例取数脚本（财联社 API + 聚合页探活；财联社直连 2026-10-08 起失效，详见 `docs/05`）
 - `scripts/fetch_top10.py`：程序化取数主脚本（8 平台接口 → 综合前十 + 简要 JSON）
+- `sources.json`：数据源配置（接口地址 / 禁用平台 / 聚合页 URL，可缺省）
 
 ## 步骤
 
@@ -35,12 +43,15 @@ disable-model-invocation: true
 python scripts/fetch_top10.py --json out.json   # 写 JSON 文件（含综合前十 + 各平台 TOP10）
 python scripts/fetch_top10.py --json            # JSON 到 stdout
 python scripts/fetch_top10.py --top 20          # 综合取前 20
+python scripts/fetch_top10.py --check           # 失效自检：逐平台探测 + 聚合页探活，失效 exit 1
+python scripts/fetch_top10.py --config my.json  # 指定数据源配置
 ```
 
 1. 请求 8 平台榜单接口（东财 POST / 同花顺 open-api / 开盘啦 get_hot_phb / 通达信 tdx / 雪球 xueqiu / 财联社 cls_hot_stock / 淘股吧 tgb_notice / 大智慧 dzh，详见 `docs/10`）；
-2. 解析各平台榜单 → 每只股票 8 平台名次表；
+2. 解析各平台榜单 → 每只股票 8 平台名次表；禁用平台跳过，失败平台不静默：人类可读输出末尾打印「不可用平台：…（原因）」，JSON 含 `platform_status` / `ok_platforms`；
 3. 综合前十：候选须 ≥3 个平台上榜，得分 = 上榜平台名次平均值，同分时上榜平台数多者优先；
-4. 输出简要 JSON（`snapshot_time` / `top10[]` / `platform_top{}`），供定时任务推送飞书或下游消费。
+4. 输出简要 JSON（`snapshot_time` / `top10[]` / `platform_top{}` / `platform_status{}` / `ok_platforms[]` / `config`），供定时任务推送飞书或下游消费；
+5. **降级链**：某平台接口失效时自动跳过并如实上报（不中断整体取数）；可用平台不足 3 个时打印警告（综合口径无候选），此时改走聚合页路径 B 或检查 `sources.json`。定期跑 `--check` 可主动发现接口时效问题。
 
 > 综合口径为脚本公开算法，与聚合页私有加权名次存在序位差异属正常（见 `docs/10` 差异说明）；要完全对齐聚合页名次走 B 路径。
 
