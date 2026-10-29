@@ -1,0 +1,484 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A股龙虎榜情绪日报 · 2026-07-24</title>
+<style>
+:root{
+  --bg:#0e1420; --bg2:#131b2b; --panel:#182234; --panel2:#1e2a40;
+  --line:#28374f; --line2:#334562; --txt:#e8eef8; --sub:#9fb0c8; --dim:#6b7c96;
+  --up:#ff4d4d; --up2:#ff4d4d; --down:#18c07a; --down2:#18c07a; --flat:#8a97ab;
+  --gold:#e0a94a; --accent:#4aa3f0;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    linear-gradient(180deg, rgba(74,163,240,0.05) 0%, transparent 220px),
+    var(--bg);
+  color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:13px; line-height:1.5; letter-spacing:.2px;
+}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ===== 终端顶栏 ===== */
+.termbar{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(90deg,#0a0f18 0%,#111a2b 100%);
+  border-bottom:1px solid #22314a;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  padding:10px 22px; box-shadow:0 2px 14px rgba(0,0,0,0.4);
+}
+.termbar .brand{display:flex;flex-direction:column;line-height:1.15}
+.termbar .brand .bz{font-size:15px;font-weight:800;letter-spacing:.5px;color:#fff}
+.termbar .brand .be{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:2px;color:var(--gold)}
+.termbar .tk{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tkpill{display:flex;flex-direction:column;align-items:flex-start;background:rgba(255,255,255,0.03);border:1px solid #26344c;border-radius:8px;padding:5px 12px}
+.tkpill .k{font-size:9.5px;letter-spacing:1px;color:var(--dim);text-transform:uppercase}
+.tkpill .v{font-family:ui-monospace,Menlo,monospace;font-size:15px;font-weight:800;line-height:1.1;color:var(--txt)}
+.termbar .clock{margin-left:auto;font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--sub);display:flex;align-items:center;gap:7px}
+.termbar .clock .live{width:7px;height:7px;border-radius:50%;background:var(--up);box-shadow:0 0 8px var(--up);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ===== 主体宽栅格 ===== */
+.wrap{max-width:1320px;margin:0 auto;padding:20px 22px 60px}
+.stripnav{display:flex;gap:0;flex-wrap:wrap;margin:2px 0 20px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.stripnav button{
+  flex:1 1 auto; min-width:120px;
+  background:transparent;color:var(--sub);border:none;border-right:1px solid var(--line);
+  padding:11px 10px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;letter-spacing:.4px;
+}
+.stripnav button:last-child{border-right:none}
+.stripnav button:hover{color:#fff;background:var(--panel2)}
+
+/* overview cards -> 密集数据条 */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:0 0 22px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.card{background:var(--panel);padding:14px 16px;position:relative}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dim)}
+.card:nth-child(1):before{background:var(--gold)} .card:nth-child(2):before{background:var(--up)}
+.card:nth-child(3):before{background:var(--accent)} .card:nth-child(4):before{background:var(--up)}
+.card .cl{font-size:10.5px;color:var(--sub);margin-bottom:7px;display:flex;align-items:center;gap:6px;letter-spacing:.5px;text-transform:uppercase}
+.card .cv{font-size:22px;font-weight:800;font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;line-height:1.1}
+.card .cx{font-size:11px;color:var(--dim);margin-top:6px}
+.card .dot{width:7px;height:7px;border-radius:50%}
+.dot.r{background:var(--up)} .dot.g{background:var(--down)} .dot.y{background:var(--gold)} .dot.b{background:var(--accent)}
+
+/* ===== dashboard 密集网格：section 并排铺墙 ===== */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.grid .span2{grid-column:1 / -1}
+section{margin:0}
+.sec-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sec-h h2{margin:0;font-size:14px;font-weight:800;letter-spacing:.5px;text-transform:none}
+.sec-h .bar{width:4px;height:15px;border-radius:2px;background:linear-gradient(var(--up),var(--gold))}
+.sec-h .note{color:var(--dim);font-size:11px;margin-left:auto;font-family:ui-monospace,Menlo,monospace}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.col-h{font-size:12px;font-weight:700;margin-bottom:9px;display:flex;align-items:center;gap:8px;color:var(--sub);letter-spacing:.4px}
+.col-h .tag{font-size:10px;padding:2px 8px;border-radius:6px;font-weight:700;font-family:ui-monospace,Menlo,monospace}
+.tag.r{background:rgba(255,77,77,.15);color:var(--up2)}
+.tag.g{background:rgba(24,192,122,.15);color:var(--down2)}
+
+/* svg text */
+.svg-lbl{fill:var(--sub);font-size:12px;font-family:inherit}
+.svg-val{fill:var(--txt);font-size:12px;font-weight:700;font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.svg-val.up{fill:var(--up2)} .svg-val.down{fill:var(--down2)}
+.svg-sub{fill:var(--dim);font-size:10.5px;font-family:inherit}
+.empty{color:var(--dim);padding:20px;text-align:center}
+
+/* table 终端化：紧凑、等宽、可加热力底 */
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{color:var(--sub);font-weight:700;text-align:left;padding:7px 9px;border-bottom:1px solid var(--line2);font-size:10.5px;white-space:nowrap;background:var(--bg2);letter-spacing:.5px;text-transform:uppercase}
+tbody td{padding:6.5px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:hover{background:var(--panel2)}
+td.nm{font-weight:700;white-space:nowrap}
+td.reason{color:var(--sub);font-size:11px;line-height:1.4;min-width:170px}
+th.r,td.r{text-align:right}
+td.mono{font-family:ui-monospace,Menlo,monospace}
+/* 涨跌热力：给 up/down 的 mono 单元格加淡色底，形成热力条感 */
+td.mono.up{background:linear-gradient(90deg,rgba(255,77,77,0.14),transparent 85%)}
+td.mono.down{background:linear-gradient(90deg,rgba(24,192,122,0.14),transparent 85%)}
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
+.tbl-wrap table thead th:first-child{border-top-left-radius:10px}
+
+.legend{display:flex;gap:16px;font-size:11px;color:var(--sub);margin:8px 0 0;flex-wrap:wrap}
+.legend b{font-weight:700}
+.legend .li{display:flex;align-items:center;gap:6px}
+.legend .sw{width:12px;height:12px;border-radius:3px}
+.sw.r{background:var(--up)} .sw.g{background:var(--down)}
+
+footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px;line-height:1.7}
+footer .src{color:var(--sub)}
+footer .warn{color:var(--gold);font-weight:600}
+.chip{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px 9px;margin:2px 4px 2px 0;font-size:11px;color:var(--sub)}
+
+@media(max-width:960px){
+  .grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .two{grid-template-columns:1fr}
+}
+</style>
+
+<div class="termbar">
+  <div class="brand">
+    <span class="bz" data-i18n="hero_title">A股龙虎榜情绪日报</span>
+    <span class="be">DRAGON-TIGER TERMINAL · 2026-07-24</span>
+  </div>
+  <div class="tk">
+    <div class="tkpill"><span class="k" data-i18n="tk_listed">上榜</span><span class="v">84</span></div>
+    <div class="tkpill"><span class="k" data-i18n="tk_netbuy">净买入合计</span><span class="v up">+8.09亿</span></div>
+    <div class="tkpill"><span class="k" data-i18n="tk_theme">最热题材</span><span class="v" style="font-size:12px;color:var(--accent)">兵装重组</span></div>
+    <div class="tkpill"><span class="k" data-i18n="tk_lead">领涨</span><span class="v up" style="font-size:12px">美容护理 +4.11%</span></div>
+  </div>
+  <div class="clock"><span class="live"></span><span data-i18n="tk_live">收盘复盘 · CLOSE</span></div>
+</div>
+
+<div class="wrap">
+  <div class="stripnav">
+    <button onclick="jump('ov')" data-i18n="nav_ov">当日概览</button>
+    <button onclick="jump('theme')" data-i18n="nav_theme">题材热度</button>
+    <button onclick="jump('ind')" data-i18n="nav_ind">行业轮动</button>
+    <button onclick="jump('lhb')" data-i18n="nav_lhb">龙虎榜核心</button>
+    <button onclick="jump('hot')" data-i18n="nav_hot">强势股归因</button>
+  </div>
+
+  <div id="ov" class="cards">
+    <div class="card">
+      <div class="cl"><span class="dot y"></span><span data-i18n="card1_label">龙虎榜上榜</span></div>
+      <div class="cv">84<span style="font-size:14px;color:var(--sub);font-weight:500" data-i18n="card1_unit"> 家</span></div>
+      <div class="cx"><span data-i18n="card1_pos">净买入为正</span> <span class="up">46</span> / <span data-i18n="card1_neg">为负</span> <span class="down">37</span></div>
+    </div>
+    <div class="card">
+      <div class="cl"><span class="dot r"></span><span data-i18n="card2_label">净买入合计</span></div>
+      <div class="cv up">+8.09亿</div>
+      <div class="cx" data-i18n="card2_note">全部上榜个股净买入求和</div>
+    </div>
+    <div class="card">
+      <div class="cl"><span class="dot b"></span><span data-i18n="card3_label">最热题材</span></div>
+      <div class="cv" style="font-size:19px">兵装重组</div>
+      <div class="cx">5 <span data-i18n="card3_note">只强势股共振</span></div>
+    </div>
+    <div class="card">
+      <div class="cl"><span class="dot r"></span><span data-i18n="card4_label">领涨行业</span></div>
+      <div class="cv up" style="font-size:19px">美容护理</div>
+      <div class="cx">+4.11% · <span data-i18n="card4_lag">领跌</span> <span class="down">保险Ⅱ -1.43%</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+  <section id="theme">
+    <div class="sec-h"><span class="bar"></span><h2 data-i18n="theme_h">题材热度榜</h2>
+      <span class="note" data-i18n="theme_note">同花顺强势股 reason 按「+」拆分词频统计 · TOP 15</span></div>
+    <div class="panel">
+      <svg viewBox="0 0 620 466" width="100%" role="img" aria-label="题材热度条形图"><defs><linearGradient id="gradHot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c8912a" stop-opacity="0.85"/><stop offset="1" stop-color="#e0a94a" stop-opacity="0.95"/></linearGradient><linearGradient id="gradUp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e02020" stop-opacity="0.80"/><stop offset="1" stop-color="#e02020" stop-opacity="1"/></linearGradient><linearGradient id="gradDown" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0a9d5a" stop-opacity="0.80"/><stop offset="1" stop-color="#0a9d5a" stop-opacity="1"/></linearGradient></defs><text x="142" y="27.0" text-anchor="end" class="svg-lbl">兵装重组</text><rect x="150" y="13" width="410.0" height="18" rx="3" fill="url(#gradHot)"/><text x="568.0" y="27.0" class="svg-val up">5</text><text x="142" y="57.0" text-anchor="end" class="svg-lbl">央企</text><rect x="150" y="43" width="246.0" height="18" rx="3" fill="url(#gradHot)"/><text x="404.0" y="57.0" class="svg-val up">3</text><text x="142" y="87.0" text-anchor="end" class="svg-lbl">间接投资长鑫科技</text><rect x="150" y="73" width="246.0" height="18" rx="3" fill="url(#gradHot)"/><text x="404.0" y="87.0" class="svg-val up">3</text><text x="142" y="117.0" text-anchor="end" class="svg-lbl">数据中心</text><rect x="150" y="103" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="117.0" class="svg-val up">2</text><text x="142" y="147.0" text-anchor="end" class="svg-lbl">电网设备</text><rect x="150" y="133" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="147.0" class="svg-val up">2</text><text x="142" y="177.0" text-anchor="end" class="svg-lbl">增持</text><rect x="150" y="163" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="177.0" class="svg-val up">2</text><text x="142" y="207.0" text-anchor="end" class="svg-lbl">一季报增长</text><rect x="150" y="193" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="207.0" class="svg-val up">2</text><text x="142" y="237.0" text-anchor="end" class="svg-lbl">中报预增</text><rect x="150" y="223" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="237.0" class="svg-val up">2</text><text x="142" y="267.0" text-anchor="end" class="svg-lbl">半年报预增</text><rect x="150" y="253" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="267.0" class="svg-val up">2</text><text x="142" y="297.0" text-anchor="end" class="svg-lbl">半导体设备</text><rect x="150" y="283" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="297.0" class="svg-val up">2</text><text x="142" y="327.0" text-anchor="end" class="svg-lbl">存储芯片</text><rect x="150" y="313" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="327.0" class="svg-val up">2</text><text x="142" y="357.0" text-anchor="end" class="svg-lbl">军工装备</text><rect x="150" y="343" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="357.0" class="svg-val up">2</text><text x="142" y="387.0" text-anchor="end" class="svg-lbl">国企</text><rect x="150" y="373" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="387.0" class="svg-val up">2</text><text x="142" y="417.0" text-anchor="end" class="svg-lbl">房地产</text><rect x="150" y="403" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="417.0" class="svg-val up">2</text><text x="142" y="447.0" text-anchor="end" class="svg-lbl">合肥国资</text><rect x="150" y="433" width="164.0" height="18" rx="3" fill="url(#gradHot)"/><text x="322.0" y="447.0" class="svg-val up">2</text></svg>
+      <div class="legend"><span class="li"><span class="sw r"></span><span data-i18n="theme_legend">出现次数越多 = 当日题材共振越强</span></span></div>
+    </div>
+  </section>
+
+  <section id="ind">
+    <div class="sec-h"><span class="bar"></span><h2 data-i18n="ind_h">行业轮动</h2>
+      <span class="note" data-i18n="ind_note">东财行业板块 · 共 100 个行业 · 涨红跌绿</span></div>
+    <div class="two">
+      <div class="panel">
+        <div class="col-h"><span data-i18n="ind_top">涨幅榜 TOP 10</span> <span class="tag r" data-i18n="ind_top_tag">领涨</span></div>
+        <svg viewBox="0 0 300 352" width="100%" role="img" aria-label="行业涨跌条形图"><text x="88" y="27.0" text-anchor="end" class="svg-lbl">美容护理</text><rect x="96" y="12" width="138.0" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="27.0" text-anchor="end" class="svg-val up">+4.11%</text><text x="88" y="61.0" text-anchor="end" class="svg-lbl">医疗服务</text><rect x="96" y="46" width="137.3" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="61.0" text-anchor="end" class="svg-val up">+4.09%</text><text x="88" y="95.0" text-anchor="end" class="svg-lbl">电池</text><rect x="96" y="80" width="134.6" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="95.0" text-anchor="end" class="svg-val up">+4.01%</text><text x="88" y="129.0" text-anchor="end" class="svg-lbl">广告营销</text><rect x="96" y="114" width="128.6" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="129.0" text-anchor="end" class="svg-val up">+3.83%</text><text x="88" y="163.0" text-anchor="end" class="svg-lbl">教育</text><rect x="96" y="148" width="121.2" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="163.0" text-anchor="end" class="svg-val up">+3.61%</text><text x="88" y="197.0" text-anchor="end" class="svg-lbl">中药Ⅱ</text><rect x="96" y="182" width="117.9" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="197.0" text-anchor="end" class="svg-val up">+3.51%</text><text x="88" y="231.0" text-anchor="end" class="svg-lbl">玻璃玻纤</text><rect x="96" y="216" width="117.2" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="231.0" text-anchor="end" class="svg-val up">+3.49%</text><text x="88" y="265.0" text-anchor="end" class="svg-lbl">影视院线</text><rect x="96" y="250" width="110.5" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="265.0" text-anchor="end" class="svg-val up">+3.29%</text><text x="88" y="299.0" text-anchor="end" class="svg-lbl">医药生物</text><rect x="96" y="284" width="109.1" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="299.0" text-anchor="end" class="svg-val up">+3.25%</text><text x="88" y="333.0" text-anchor="end" class="svg-lbl">化学制药</text><rect x="96" y="318" width="106.4" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="333.0" text-anchor="end" class="svg-val up">+3.17%</text></svg>
+      </div>
+      <div class="panel">
+        <div class="col-h"><span data-i18n="ind_bot">涨幅垫底 TOP 10</span> <span class="tag g" data-i18n="ind_bot_tag">最弱</span></div>
+        <svg viewBox="0 0 300 352" width="100%" role="img" aria-label="行业涨跌条形图"><text x="88" y="27.0" text-anchor="end" class="svg-lbl">保险Ⅱ</text><rect x="96" y="12" width="138.0" height="18" rx="3" fill="url(#gradDown)"/><text x="294" y="27.0" text-anchor="end" class="svg-val down">-1.43%</text><text x="88" y="61.0" text-anchor="end" class="svg-lbl">石油石化</text><rect x="96" y="46" width="83.0" height="18" rx="3" fill="url(#gradDown)"/><text x="294" y="61.0" text-anchor="end" class="svg-val down">-0.86%</text><text x="88" y="95.0" text-anchor="end" class="svg-lbl">银行Ⅱ</text><rect x="96" y="80" width="3.9" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="95.0" text-anchor="end" class="svg-val up">+0.04%</text><text x="88" y="129.0" text-anchor="end" class="svg-lbl">煤炭</text><rect x="96" y="114" width="6.8" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="129.0" text-anchor="end" class="svg-val up">+0.07%</text><text x="88" y="163.0" text-anchor="end" class="svg-lbl">燃气Ⅱ</text><rect x="96" y="148" width="32.8" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="163.0" text-anchor="end" class="svg-val up">+0.34%</text><text x="88" y="197.0" text-anchor="end" class="svg-lbl">航运港口</text><rect x="96" y="182" width="40.5" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="197.0" text-anchor="end" class="svg-val up">+0.42%</text><text x="88" y="231.0" text-anchor="end" class="svg-lbl">证券Ⅱ</text><rect x="96" y="216" width="47.3" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="231.0" text-anchor="end" class="svg-val up">+0.49%</text><text x="88" y="265.0" text-anchor="end" class="svg-lbl">半导体</text><rect x="96" y="250" width="52.1" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="265.0" text-anchor="end" class="svg-val up">+0.54%</text><text x="88" y="299.0" text-anchor="end" class="svg-lbl">非银金融</text><rect x="96" y="284" width="83.0" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="299.0" text-anchor="end" class="svg-val up">+0.86%</text><text x="88" y="333.0" text-anchor="end" class="svg-lbl">公用事业</text><rect x="96" y="318" width="88.8" height="18" rx="3" fill="url(#gradUp)"/><text x="294" y="333.0" text-anchor="end" class="svg-val up">+0.92%</text></svg>
+      </div>
+    </div>
+    <div class="legend" style="margin-top:12px">
+      <span class="li"><span class="sw r"></span><span data-i18n="ind_lg_up"><b>红</b>=上涨</span></span>
+      <span class="li"><span class="sw g"></span><span data-i18n="ind_lg_down"><b>绿</b>=下跌</span></span>
+      <span class="li" style="color:var(--dim)" data-i18n="ind_lg_src">数据来源：东财行业板块 · 共 100+ 行业</span>
+    </div>
+  </section>
+
+  <section id="lhb" class="span2">
+    <div class="sec-h"><span class="bar"></span><h2 data-i18n="lhb_h">龙虎榜核心</h2>
+      <span class="note" data-i18n="lhb_note">全市场上榜 · 按净买入降序 · 正红负绿</span></div>
+    <div class="panel" style="margin-bottom:16px">
+      <div class="col-h" data-i18n="lhb_rank">净买入 / 净卖出 TOP 15 排名</div>
+      <svg viewBox="0 0 620 466" width="100%" role="img" aria-label="龙虎榜净买入排名"><text x="124" y="27.0" text-anchor="end" class="svg-lbl">滨化股份</text><rect x="150" y="13" width="400.0" height="18" rx="3" fill="url(#gradUp)"/><text x="556.0" y="27.0" class="svg-val up">1.78亿</text><text x="124" y="57.0" text-anchor="end" class="svg-lbl">孚日股份</text><rect x="150" y="43" width="368.5" height="18" rx="3" fill="url(#gradUp)"/><text x="524.5" y="57.0" class="svg-val up">1.64亿</text><text x="124" y="87.0" text-anchor="end" class="svg-lbl">长城军工</text><rect x="150" y="73" width="359.9" height="18" rx="3" fill="url(#gradUp)"/><text x="515.9" y="87.0" class="svg-val up">1.60亿</text><text x="124" y="117.0" text-anchor="end" class="svg-lbl">孚日股份</text><rect x="150" y="103" width="313.4" height="18" rx="3" fill="url(#gradUp)"/><text x="469.4" y="117.0" class="svg-val up">1.39亿</text><text x="124" y="147.0" text-anchor="end" class="svg-lbl">美利云</text><rect x="150" y="133" width="304.2" height="18" rx="3" fill="url(#gradUp)"/><text x="460.2" y="147.0" class="svg-val up">1.35亿</text><text x="124" y="177.0" text-anchor="end" class="svg-lbl">立新能源</text><rect x="150" y="163" width="253.6" height="18" rx="3" fill="url(#gradUp)"/><text x="409.6" y="177.0" class="svg-val up">1.13亿</text><text x="124" y="207.0" text-anchor="end" class="svg-lbl">光力科技</text><rect x="150" y="193" width="252.8" height="18" rx="3" fill="url(#gradUp)"/><text x="408.8" y="207.0" class="svg-val up">1.12亿</text><text x="124" y="237.0" text-anchor="end" class="svg-lbl">汉缆股份</text><rect x="150" y="223" width="221.5" height="18" rx="3" fill="url(#gradUp)"/><text x="377.5" y="237.0" class="svg-val up">9,841.0万</text><text x="124" y="267.0" text-anchor="end" class="svg-lbl">中光防雷</text><rect x="150" y="253" width="181.4" height="18" rx="3" fill="url(#gradUp)"/><text x="337.4" y="267.0" class="svg-val up">8,059.1万</text><text x="124" y="297.0" text-anchor="end" class="svg-lbl">顺钠股份</text><rect x="150" y="283" width="178.8" height="18" rx="3" fill="url(#gradUp)"/><text x="334.8" y="297.0" class="svg-val up">7,943.0万</text><text x="124" y="327.0" text-anchor="end" class="svg-lbl">合肥城建</text><rect x="150" y="313" width="169.7" height="18" rx="3" fill="url(#gradUp)"/><text x="325.7" y="327.0" class="svg-val up">7,538.4万</text><text x="124" y="357.0" text-anchor="end" class="svg-lbl">肇民转债</text><rect x="150" y="343" width="169.3" height="18" rx="3" fill="url(#gradUp)"/><text x="325.3" y="357.0" class="svg-val up">7,521.2万</text><text x="124" y="387.0" text-anchor="end" class="svg-lbl">长裕集团</text><rect x="150" y="373" width="149.5" height="18" rx="3" fill="url(#gradUp)"/><text x="305.5" y="387.0" class="svg-val up">6,640.3万</text><text x="124" y="417.0" text-anchor="end" class="svg-lbl">中能电气</text><rect x="150" y="403" width="135.5" height="18" rx="3" fill="url(#gradUp)"/><text x="291.5" y="417.0" class="svg-val up">6,018.6万</text><text x="124" y="447.0" text-anchor="end" class="svg-lbl">中电鑫龙</text><rect x="150" y="433" width="134.6" height="18" rx="3" fill="url(#gradUp)"/><text x="290.6" y="447.0" class="svg-val up">5,977.0万</text></svg>
+    </div>
+    <div class="col-h" style="margin-bottom:8px" data-i18n="lhb_detail">净买入 TOP 20 明细</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th data-i18n="th_code">代码</th><th data-i18n="th_name">名称</th><th data-i18n="th_chg">涨跌幅</th><th data-i18n="th_net">净买入</th><th data-i18n="th_reason">上榜原因</th><th data-i18n="th_turn">换手</th>
+        </tr></thead>
+        <tbody><tr><td class="mono">601678</td><td class="nm">滨化股份</td><td class="mono up">+5.14%</td><td class="mono up">+1.78亿</td><td class="reason">有价格涨跌幅限制的日换手率达到20%的前五只证券</td><td class="mono flat">25.23%</td></tr><tr><td class="mono">002083</td><td class="nm">孚日股份</td><td class="mono up">+10.03%</td><td class="mono up">+1.64亿</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td><td class="mono flat">10.45%</td></tr><tr><td class="mono">601606</td><td class="nm">长城军工</td><td class="mono up">+9.99%</td><td class="mono up">+1.60亿</td><td class="reason">非S证券连续三个交易日内收盘价格涨幅偏离值累计达到20%的证券</td><td class="mono flat">4.18%</td></tr><tr><td class="mono">002083</td><td class="nm">孚日股份</td><td class="mono up">+10.03%</td><td class="mono up">+1.39亿</td><td class="reason">日涨幅偏离值达到7%的前5只证券</td><td class="mono flat">10.45%</td></tr><tr><td class="mono">000815</td><td class="nm">美利云</td><td class="mono down">-8.74%</td><td class="mono up">+1.35亿</td><td class="reason">日换手率达到20%的前5只证券</td><td class="mono flat">23.6%</td></tr><tr><td class="mono">001258</td><td class="nm">立新能源</td><td class="mono up">+7.60%</td><td class="mono up">+1.13亿</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td><td class="mono flat">22.08%</td></tr><tr><td class="mono">300480</td><td class="nm">光力科技</td><td class="mono up">+20.02%</td><td class="mono up">+1.12亿</td><td class="reason">日涨幅达到15%的前5只证券</td><td class="mono flat">12.8%</td></tr><tr><td class="mono">002498</td><td class="nm">汉缆股份</td><td class="mono up">+9.98%</td><td class="mono up">+9,841.0万</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td><td class="mono flat">2.25%</td></tr><tr><td class="mono">300414</td><td class="nm">中光防雷</td><td class="mono up">+20.02%</td><td class="mono up">+8,059.1万</td><td class="reason">日涨幅达到15%的前5只证券</td><td class="mono flat">4.24%</td></tr><tr><td class="mono">000533</td><td class="nm">顺钠股份</td><td class="mono up">+10.02%</td><td class="mono up">+7,943.0万</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td><td class="mono flat">1.21%</td></tr><tr><td class="mono">002208</td><td class="nm">合肥城建</td><td class="mono up">+10.03%</td><td class="mono up">+7,538.4万</td><td class="reason">日涨幅偏离值达到7%的前5只证券</td><td class="mono flat">8.61%</td></tr><tr><td class="mono">123275</td><td class="nm">肇民转债</td><td class="mono up">+57.30%</td><td class="mono up">+7,521.2万</td><td class="reason">上市首日可转债</td><td class="mono flat">0.0%</td></tr><tr><td class="mono">603407</td><td class="nm">长裕集团</td><td class="mono down">-7.55%</td><td class="mono up">+6,640.3万</td><td class="reason">有价格涨跌幅限制的日换手率达到20%的前五只证券</td><td class="mono flat">22.99%</td></tr><tr><td class="mono">300062</td><td class="nm">中能电气</td><td class="mono up">+7.09%</td><td class="mono up">+6,018.6万</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到30%的证券</td><td class="mono flat">25.38%</td></tr><tr><td class="mono">002298</td><td class="nm">中电鑫龙</td><td class="mono up">+10.05%</td><td class="mono up">+5,977.0万</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td><td class="mono flat">8.31%</td></tr><tr><td class="mono">003001</td><td class="nm">中岩大地</td><td class="mono up">+9.98%</td><td class="mono up">+5,266.7万</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td><td class="mono flat">31.2%</td></tr><tr><td class="mono">603690</td><td class="nm">至纯科技</td><td class="mono up">+10.02%</td><td class="mono up">+4,120.2万</td><td class="reason">有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券</td><td class="mono flat">4.98%</td></tr><tr><td class="mono">603629</td><td class="nm">利通电子</td><td class="mono down">-10.00%</td><td class="mono up">+4,066.0万</td><td class="reason">有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券</td><td class="mono flat">12.07%</td></tr><tr><td class="mono">301234</td><td class="nm">五洲医疗</td><td class="mono up">+20.00%</td><td class="mono up">+3,594.8万</td><td class="reason">日涨幅达到15%的前5只证券</td><td class="mono flat">2.18%</td></tr><tr><td class="mono">600984</td><td class="nm">建设机械</td><td class="mono up">+9.89%</td><td class="mono up">+3,294.8万</td><td class="reason">非S证券连续三个交易日内收盘价格涨幅偏离值累计达到20%的证券</td><td class="mono flat">6.96%</td></tr></tbody>
+      </table>
+    </div>
+    <div class="col-h" style="margin:20px 0 8px" data-i18n="lhb_sell">净卖出 TOP 8（资金出逃）</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th data-i18n="th_code">代码</th><th data-i18n="th_name">名称</th><th data-i18n="th_chg">涨跌幅</th><th data-i18n="th_net">净买入</th><th data-i18n="th_reason">上榜原因</th><th data-i18n="th_turn">换手</th>
+        </tr></thead>
+        <tbody><tr><td class="mono">001896</td><td class="nm">豫能控股</td><td class="mono down">-10.01%</td><td class="mono down">-1.99亿</td><td class="reason">日跌幅偏离值达到7%的前5只证券</td><td class="mono flat">9.09%</td></tr><tr><td class="mono">002015</td><td class="nm">协鑫能科</td><td class="mono down">-9.99%</td><td class="mono down">-1.46亿</td><td class="reason">日跌幅偏离值达到7%的前5只证券</td><td class="mono flat">7.14%</td></tr><tr><td class="mono">600726</td><td class="nm">华电能源</td><td class="mono down">-10.03%</td><td class="mono down">-1.46亿</td><td class="reason">有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券</td><td class="mono flat">3.78%</td></tr><tr><td class="mono">000779</td><td class="nm">甘咨询</td><td class="mono up">+6.28%</td><td class="mono down">-1.14亿</td><td class="reason">日换手率达到20%的前5只证券</td><td class="mono flat">24.08%</td></tr><tr><td class="mono">600722</td><td class="nm">金牛化工</td><td class="mono up">+4.86%</td><td class="mono down">-6,771.7万</td><td class="reason">有价格涨跌幅限制的日换手率达到20%的前五只证券</td><td class="mono flat">24.02%</td></tr><tr><td class="mono">301357</td><td class="nm">北方长龙</td><td class="mono up">+7.24%</td><td class="mono down">-6,465.4万</td><td class="reason">连续三个交易日内，涨幅偏离值累计达到30%的证券</td><td class="mono flat">10.33%</td></tr><tr><td class="mono">603272</td><td class="nm">*ST联翔</td><td class="mono down">-1.75%</td><td class="mono down">-4,624.2万</td><td class="reason">有价格涨跌幅限制的日价格振幅达到15%的前五只证券</td><td class="mono flat">9.04%</td></tr><tr><td class="mono">600578</td><td class="nm">京能电力</td><td class="mono down">-10.06%</td><td class="mono down">-4,431.9万</td><td class="reason">有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券</td><td class="mono flat">2.8%</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="hot" class="span2">
+    <div class="sec-h"><span class="bar"></span><h2 data-i18n="hot_h">强势股题材归因</h2>
+      <span class="note" data-i18n="hot_note">同花顺当日强势股 42 只 · 按涨幅降序取前 20</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th data-i18n="th_code">代码</th><th data-i18n="th_name">名称</th><th data-i18n="th_gain">涨幅</th><th data-i18n="th_turn">换手</th><th data-i18n="th_bigorder">大单净量</th><th data-i18n="th_theme">题材归因</th>
+        </tr></thead>
+        <tbody><tr><td class="mono">300414</td><td class="nm">中光防雷</td><td class="mono up">+20.02%</td><td class="mono flat">4.24%</td><td class="mono up">0.0万</td><td class="reason">AI服务器上游+一体成型电感+防雷+一季报增长</td></tr><tr><td class="mono">300480</td><td class="nm">光力科技</td><td class="mono up">+20.02%</td><td class="mono flat">12.8%</td><td class="mono up">0.0万</td><td class="reason">半导体划片机+先进封装+产能满产</td></tr><tr><td class="mono">688237</td><td class="nm">超卓航科</td><td class="mono up">+20.00%</td><td class="mono flat">8.47%</td><td class="mono flat">0.0万</td><td class="reason">控制权变更+军工装备+冷喷涂增材制造</td></tr><tr><td class="mono">688622</td><td class="nm">*ST禾信</td><td class="mono up">+20.00%</td><td class="mono flat">1.79%</td><td class="mono flat">0.0万</td><td class="reason">量子计算+拟收购量羲技术+质谱仪+ST板块</td></tr><tr><td class="mono">301583</td><td class="nm">托伦斯</td><td class="mono up">+20.00%</td><td class="mono flat">43.83%</td><td class="mono up">0.0万</td><td class="reason">半导体设备+精密零部件+次新股</td></tr><tr><td class="mono">301234</td><td class="nm">五洲医疗</td><td class="mono up">+20.00%</td><td class="mono flat">2.18%</td><td class="mono up">0.0万</td><td class="reason">跨界并购+电机控制芯片+医疗器械出口</td></tr><tr><td class="mono">002303</td><td class="nm">美盈森</td><td class="mono up">+10.12%</td><td class="mono flat">3.95%</td><td class="mono up">0.0万</td><td class="reason">消费电子包装+包装一体化+海外产能释放</td></tr><tr><td class="mono">002388</td><td class="nm">新亚制程</td><td class="mono up">+10.10%</td><td class="mono flat">10.56%</td><td class="mono up">0.0万</td><td class="reason">锂电材料+华为产业链+胶粘剂+增持</td></tr><tr><td class="mono">002300</td><td class="nm">太阳电缆</td><td class="mono up">+10.08%</td><td class="mono flat">11.79%</td><td class="mono up">0.0万</td><td class="reason">海缆+电网设备+特高压+数据中心</td></tr><tr><td class="mono">000670</td><td class="nm">盈方微</td><td class="mono up">+10.07%</td><td class="mono flat">6.79%</td><td class="mono up">0.0万</td><td class="reason">存储芯片+电子元器件分销+重大资产重组</td></tr><tr><td class="mono">600617</td><td class="nm">国新能源</td><td class="mono up">+10.06%</td><td class="mono flat">2.74%</td><td class="mono flat">0.0万</td><td class="reason">天然气+生物质能+山西国资</td></tr><tr><td class="mono">002298</td><td class="nm">中电鑫龙</td><td class="mono up">+10.05%</td><td class="mono flat">8.31%</td><td class="mono up">0.0万</td><td class="reason">算力上游+智能输配电设备+智慧用能+半年报预增</td></tr><tr><td class="mono">000417</td><td class="nm">合百集团</td><td class="mono up">+10.04%</td><td class="mono flat">10.7%</td><td class="mono up">0.0万</td><td class="reason">间接投资长鑫科技+百货零售+合肥国资</td></tr><tr><td class="mono">002208</td><td class="nm">合肥城建</td><td class="mono up">+10.03%</td><td class="mono flat">8.61%</td><td class="mono up">0.0万</td><td class="reason">间接投资长鑫科技+房地产+合肥国资</td></tr><tr><td class="mono">002083</td><td class="nm">孚日股份</td><td class="mono up">+10.03%</td><td class="mono flat">10.45%</td><td class="mono up">0.0万</td><td class="reason">电解液添加剂VC涨价+收购硅碳负极+中报预增+山东国资</td></tr><tr><td class="mono">000668</td><td class="nm">荣丰控股</td><td class="mono up">+10.03%</td><td class="mono flat">4.57%</td><td class="mono up">0.0万</td><td class="reason">跨境物流+房地产去化+摘帽+股权激励</td></tr><tr><td class="mono">000533</td><td class="nm">顺钠股份</td><td class="mono up">+10.02%</td><td class="mono flat">1.21%</td><td class="mono up">0.0万</td><td class="reason">数据中心+干式变压器+电网设备+控制权变更预期</td></tr><tr><td class="mono">002189</td><td class="nm">中光学</td><td class="mono up">+10.02%</td><td class="mono flat">3.23%</td><td class="mono up">0.0万</td><td class="reason">兵装重组+汽车光电+AI眼镜+央企</td></tr><tr><td class="mono">603690</td><td class="nm">至纯科技</td><td class="mono up">+10.02%</td><td class="mono flat">4.98%</td><td class="mono flat">0.0万</td><td class="reason">半导体设备+存储芯片+专精特新</td></tr><tr><td class="mono">603068</td><td class="nm">博通集成</td><td class="mono up">+10.02%</td><td class="mono flat">6.93%</td><td class="mono flat">0.0万</td><td class="reason">AIoT芯片+端侧AI+中报预增</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+  </div>
+
+  <footer>
+    <div class="src" data-i18n="ft_src">数据来源：东方财富全市场龙虎榜（RPT_DAILYBILLBOARD_DETAILSNEW）· 同花顺当日强势股题材热点 · 东方财富行业板块排名 —— 均通过「A股全栈数据」skill 实时抓取。</div>
+    <div style="margin-top:6px"><span data-i18n="ft_date">报告交易日：</span><b style="color:var(--txt)">2026-07-24</b>　|　<span data-i18n="ft_listed">龙虎榜上榜 84 家</span>　|　<span data-i18n="ft_freq">题材词频源自同花顺强势股 42 只</span></div>
+    <div style="margin-top:8px" class="warn" data-i18n="ft_warn">⚠ 本报告由 AI 自动生成，仅供研究参考，不构成任何投资建议。市场有风险，入市需谨慎。</div>
+  </footer>
+</div>
+
+<script>
+const I18N = {
+  zh: {
+    __title__: "A股龙虎榜情绪日报 · 2026-07-24",
+    hero_kicker: "A-SHARE MARKET SENTIMENT · 收盘复盘",
+    hero_title: "A股龙虎榜情绪日报",
+    hero_sub: "龙虎榜资金动向 · 题材热点归因 · 行业轮动全景 —— 由「A股全栈数据」skill 实时抓取",
+    nav_ov: "当日概览",
+    nav_theme: "题材热度",
+    nav_ind: "行业轮动",
+    nav_lhb: "龙虎榜核心",
+    nav_hot: "强势股归因",
+    tk_listed: "上榜", tk_netbuy: "净买入合计", tk_theme: "最热题材", tk_lead: "领涨", tk_live: "收盘复盘 · CLOSE",
+    card1_label: "龙虎榜上榜",
+    card1_unit: " 家",
+    card1_pos: "净买入为正",
+    card1_neg: "为负",
+    card2_label: "净买入合计",
+    card2_note: "全部上榜个股净买入求和",
+    card3_label: "最热题材",
+    card3_note: "只强势股共振",
+    card4_label: "领涨行业",
+    card4_lag: "领跌",
+    theme_h: "题材热度榜",
+    theme_note: "同花顺强势股 reason 按「+」拆分词频统计 · TOP 15",
+    theme_legend: "出现次数越多 = 当日题材共振越强",
+    ind_h: "行业轮动",
+    ind_note: "东财行业板块 · 共 100 个行业 · 涨红跌绿",
+    ind_top: "涨幅榜 TOP 10",
+    ind_top_tag: "领涨",
+    ind_bot: "涨幅垫底 TOP 10",
+    ind_bot_tag: "最弱",
+    ind_lg_up: "红 = 上涨",
+    ind_lg_down: "绿 = 下跌",
+    ind_lg_src: "数据来源：东财行业板块 · 共 100+ 行业",
+    lhb_h: "龙虎榜核心",
+    lhb_note: "全市场上榜 · 按净买入降序 · 正红负绿",
+    lhb_rank: "净买入 / 净卖出 TOP 15 排名",
+    lhb_detail: "净买入 TOP 20 明细",
+    lhb_sell: "净卖出 TOP 8（资金出逃）",
+    th_code: "代码",
+    th_name: "名称",
+    th_chg: "涨跌幅",
+    th_net: "净买入",
+    th_reason: "上榜原因",
+    th_turn: "换手",
+    th_gain: "涨幅",
+    th_bigorder: "大单净量",
+    th_theme: "题材归因",
+    hot_h: "强势股题材归因",
+    hot_note: "同花顺当日强势股 42 只 · 按涨幅降序取前 20",
+    ft_src: "数据来源：东方财富全市场龙虎榜（RPT_DAILYBILLBOARD_DETAILSNEW）· 同花顺当日强势股题材热点 · 东方财富行业板块排名 —— 均通过「A股全栈数据」skill 实时抓取。",
+    ft_date: "报告交易日：",
+    ft_listed: "龙虎榜上榜 84 家",
+    ft_freq: "题材词频源自同花顺强势股 42 只",
+    ft_warn: "⚠ 本报告由 AI 自动生成，仅供研究参考，不构成任何投资建议。市场有风险，入市需谨慎。"
+  },
+  en: {
+    __title__: "A-Share Dragon-Tiger List Sentiment Daily · 2026-07-24",
+    hero_kicker: "A-SHARE MARKET SENTIMENT · Close Review",
+    hero_title: "A-Share Dragon-Tiger List Sentiment Daily",
+    hero_sub: "Dragon-Tiger List capital flows · Theme hotspot attribution · Sector rotation overview — captured live via the A-Share Full-Stack Data skill",
+    nav_ov: "Overview",
+    nav_theme: "Theme Heat",
+    nav_ind: "Sector Rotation",
+    nav_lhb: "Dragon-Tiger List",
+    nav_hot: "Strong-Stock Attribution",
+    tk_listed: "Listed", tk_netbuy: "Total Net Buy", tk_theme: "Hottest Theme", tk_lead: "Leader", tk_live: "Close Review · CLOSE",
+    card1_label: "Dragon-Tiger Listed",
+    card1_unit: " stocks",
+    card1_pos: "Net Buy positive",
+    card1_neg: "negative",
+    card2_label: "Total Net Buy",
+    card2_note: "Sum of net buy across all listed stocks",
+    card3_label: "Hottest Theme",
+    card3_note: "strong stocks in resonance",
+    card4_label: "Leading Sector",
+    card4_lag: "Laggard",
+    theme_h: "Theme Heat Ranking",
+    theme_note: "THS strong-stock reasons split by \u201c+\u201d, word-frequency count · TOP 15",
+    theme_legend: "More occurrences = stronger theme resonance for the day",
+    ind_h: "Sector Rotation",
+    ind_note: "Eastmoney sector board · 100 sectors · Up in red, down in green",
+    ind_top: "Top Gainers TOP 10",
+    ind_top_tag: "Leaders",
+    ind_bot: "Weakest TOP 10",
+    ind_bot_tag: "Weakest",
+    ind_lg_up: "Red = Up",
+    ind_lg_down: "Green = Down",
+    ind_lg_src: "Source: Eastmoney sector board · 100+ sectors",
+    lhb_h: "Dragon-Tiger List Core",
+    lhb_note: "Market-wide listings · sorted by net buy desc · positive red, negative green",
+    lhb_rank: "Net Buy / Net Sell TOP 15 Ranking",
+    lhb_detail: "Top Net Buy TOP 20 Detail",
+    lhb_sell: "Net Sell TOP 8 (Capital Outflow)",
+    th_code: "Code",
+    th_name: "Name",
+    th_chg: "Change",
+    th_net: "Net Buy",
+    th_reason: "Listing Reason",
+    th_turn: "Turnover",
+    th_gain: "Gain",
+    th_bigorder: "Big-order Net",
+    th_theme: "Theme Attribution",
+    hot_h: "Strong-Stock Theme Attribution",
+    hot_note: "THS strong stocks of the day: 42 · top 20 by gain desc",
+    ft_src: "Sources: Eastmoney market-wide Dragon-Tiger List (RPT_DAILYBILLBOARD_DETAILSNEW) · THS daily strong-stock theme hotspots · Eastmoney sector board ranking — all captured live via the A-Share Full-Stack Data skill.",
+    ft_date: "Trading day: ",
+    ft_listed: "Dragon-Tiger listed: 84 stocks",
+    ft_freq: "Theme word-frequency from 42 THS strong stocks",
+    ft_warn: "\u26a0 This report is AI-generated for research reference only and does not constitute any investment advice. Markets carry risk; invest with caution."
+  }
+};
+const lang = (new URL(location.href).searchParams.get('lang') === 'en') ? 'en' : 'zh';
+document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-CN';
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k = el.getAttribute('data-i18n');
+    if (I18N[lang][k] !== undefined) el.textContent = I18N[lang][k];
+  });
+  var t = I18N[lang].__title__; if(t) document.title = t;
+}
+applyI18n();
+function localizeUnits(){
+  if(lang!=='en') return;
+  // (1) 交易所上榜原因标准术语整句翻译（有限枚举）
+  var PH={
+    "上市首日可转债":"Convertible bond listing day",
+    "日换手率达到20%的前5只证券":"Top-5 by daily turnover reaching 20%",
+    "日换手率达到20%的前五只证券":"Top-5 by daily turnover reaching 20%",
+    "日涨幅偏离值达到7%的前5只证券":"Top-5 by daily gain deviation reaching 7%",
+    "日涨幅达到15%的前5只证券":"Top-5 by daily gain reaching 15%",
+    "日跌幅偏离值达到7%的前5只证券":"Top-5 by daily drop deviation reaching 7%",
+    "有价格涨跌幅限制的日价格振幅达到15%的前五只证券":"Top-5 by daily price amplitude reaching 15% (limit-band stocks)",
+    "有价格涨跌幅限制的日换手率达到20%的前五只证券":"Top-5 by daily turnover reaching 20% (limit-band stocks)",
+    "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券":"Top-5 by daily close gain deviation reaching 7% (limit-band stocks)",
+    "有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券":"Top-5 by daily close drop deviation reaching 7% (limit-band stocks)",
+    "连续三个交易日内，涨幅偏离值累计达到20%的证券":"Cumulative gain deviation of 20% over 3 consecutive trading days",
+    "连续三个交易日内，涨幅偏离值累计达到30%的证券":"Cumulative gain deviation of 30% over 3 consecutive trading days",
+    "非S证券连续三个交易日内收盘价格涨幅偏离值累计达到20%的证券":"Non-ST: cumulative close gain deviation of 20% over 3 consecutive trading days"
+  };
+  // (2) 词级中→英映射（名词，最长优先子串替换；数值/百分比/日期不变）
+  var TERMS={
+    // A. 行业名（申万风格）
+    "美容护理":"Beauty Care","保险Ⅱ":"Insurance II","数据中心":"Data Center",
+    "电网设备":"Grid Equipment","半导体设备":"Semiconductor Equipment","存储芯片":"Memory Chips",
+    "房地产去化":"Property Destocking","房地产":"Real Estate","医疗服务":"Medical Services","电池":"Batteries",
+    "广告营销":"Advertising & Marketing","教育":"Education","中药Ⅱ":"TCM II",
+    "玻璃玻纤":"Glass & Fiberglass","影视院线":"Film & Cinema","医药生物":"Pharma & Biotech",
+    "化学制药":"Chemical Pharma","石油石化":"Oil & Petrochemical","银行Ⅱ":"Banks II",
+    "煤炭":"Coal","燃气Ⅱ":"Gas II","航运港口":"Shipping & Ports","证券Ⅱ":"Securities II",
+    "半导体":"Semiconductors","非银金融":"Non-bank Financials","公用事业":"Utilities",
+    // B. 题材/概念名
+    "兵装重组":"NORINCO Restructuring","间接投资长鑫科技":"Indirect Stake in CXMT",
+    "合肥国资":"Hefei SASAC","军工装备":"Defense Equipment","国企":"SOE","央企":"Central SOE",
+    // C. 评级/事件词
+    "增持":"Overweight","一季报增长":"Q1 Earnings Growth","中报预增":"H1 Pre-announced Growth",
+    "半年报预增":"Interim Pre-announced Growth",
+    // E. 题材归因串词条（去重）
+    "AI服务器上游":"AI Server Upstream","一体成型电感":"Molded Inductor","防雷":"Lightning Protection",
+    "半导体划片机":"Semiconductor Dicing Saw","先进封装":"Advanced Packaging","产能满产":"Full Capacity Utilization",
+    "控制权变更预期":"Control Change Expectation","控制权变更":"Control Change",
+    "冷喷涂增材制造":"Cold Spray Additive Manufacturing","量子计算":"Quantum Computing",
+    "拟收购量羲技术":"Proposed Acquisition of Liangxi Tech","质谱仪":"Mass Spectrometer",
+    "ST板块":"ST Stocks","精密零部件":"Precision Components","次新股":"Recent IPO",
+    "跨界并购":"Cross-sector M&A","电机控制芯片":"Motor Control Chips","医疗器械出口":"Medical Device Export",
+    "消费电子包装":"Consumer Electronics Packaging","包装一体化":"Integrated Packaging",
+    "海外产能释放":"Overseas Capacity Release","锂电材料":"Li-battery Materials","华为产业链":"Huawei Supply Chain",
+    "胶粘剂":"Adhesives","海缆":"Submarine Cable","特高压":"UHV","电子元器件分销":"Electronic Component Distribution",
+    "重大资产重组":"Major Asset Restructuring","天然气":"Natural Gas","生物质能":"Biomass Energy",
+    "山西国资":"Shanxi SASAC","山东国资":"Shandong SASAC","算力上游":"Compute Upstream",
+    "智能输配电设备":"Smart Power Distribution Equipment","智慧用能":"Smart Energy Use",
+    "百货零售":"Department Store Retail","电解液添加剂VC涨价":"Electrolyte Additive VC Price Hike",
+    "收购硅碳负极":"Acquisition of Silicon-Carbon Anode","跨境物流":"Cross-border Logistics",
+    "摘帽":"ST Removal","股权激励":"Equity Incentive","干式变压器":"Dry-type Transformer",
+    "汽车光电":"Automotive Optoelectronics","AI眼镜":"AI Glasses","专精特新":"Specialized SME",
+    "AIoT芯片":"AIoT Chips","端侧AI":"On-device AI",
+    // D. 股票名（*ST 前缀保留）
+    "滨化股份":"Binhua Co.","孚日股份":"Fuari Co.","长城军工":"Great Wall Military","美利云":"Meili Cloud",
+    "立新能源":"Lixin Energy","光力科技":"Guangli Technology","汉缆股份":"Hanhe Cable",
+    "中光防雷":"ZG Lightning Protection","顺钠股份":"Shunna Co.","合肥城建":"Hefei Urban Construction",
+    "肇民转债":"Zhaomin Convertible Bond","长裕集团":"Changyu Group","中能电气":"Zhongneng Electric",
+    "中电鑫龙":"CE Xinlong","中岩大地":"Zhongyan Geotech","至纯科技":"Zhichun Technology",
+    "利通电子":"Litong Electronics","五洲医疗":"Wuzhou Medical","建设机械":"Construction Machinery",
+    "豫能控股":"Yuneng Holding","协鑫能科":"GCL Energy","华电能源":"Huadian Energy","甘咨询":"Gansu Consulting",
+    "金牛化工":"Jinniu Chemical","北方长龙":"North Changlong","*ST联翔":"*ST Lianxiang","京能电力":"Jingneng Power",
+    "超卓航科":"Chaozhuo Aviation","*ST禾信":"*ST Hexin","托伦斯":"Torrance","美盈森":"Mayin Forest",
+    "新亚制程":"Xinya Process","太阳电缆":"Sun Cable","盈方微":"InfoTM","国新能源":"Guoxin Energy",
+    "合百集团":"Hefei Department Store","荣丰控股":"Rongfeng Holding","中光学":"ZG Optics","博通集成":"Beken"
+  };
+  // (3) 单位映射（长单位先行）
+  var reps=[
+    [/(\d)\s*亿股/g,'$1 bn sh'],[/(\d)\s*万股/g,'$1 wan sh'],
+    [/元\/股/g,'/sh'],
+    [/(\d)\s*亿元/g,'$1 bn'],[/(\d)\s*万元/g,'$1 wan'],
+    [/(\d)\s*亿/g,'$1 bn'],[/(\d)\s*万/g,'$1 wan'],
+    [/(\d)\s*股/g,'$1 sh'],[/(\d)\s*家/g,'$1'],[/(\d)\s*批/g,'$1 batches'],
+    [/·\s*(\d)/g,' · $1'],[/当周/g,'wk'],
+    [/([\d.])\s*个交易日/g,'$1 trading days']
+  ];
+  // 词级替换：按 key 长度降序，保证最长优先（防止「半导体设备」被「半导体」截断）
+  var terms=Object.keys(TERMS).sort(function(a,b){return b.length-a.length;});
+  var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null);
+  var nodes=[],n; while(n=walker.nextNode()) nodes.push(n);
+  nodes.forEach(function(node){
+    var s=node.textContent;
+    if(!/[\u4e00-\u9fff]/.test(s)) return;
+    var out=s;
+    if(PH[s.trim()]!==undefined){ out=PH[s.trim()]; }   // 整句命中优先
+    else {
+      reps.forEach(function(r){ out=out.replace(r[0],r[1]); });   // 单位数值
+      terms.forEach(function(k){ if(out.indexOf(k)>=0) out=out.split(k).join(TERMS[k]); }); // 名词词级、最长优先
+    }
+    if(out!==s) node.textContent=out;
+  });
+}
+localizeUnits();
+(function(){
+  var html='<div id="langSwitch" style="position:fixed;top:11px;right:16px;z-index:9999;display:flex;gap:2px;padding:3px;background:rgba(10,15,24,0.9);border:1px solid #2b3c58;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,0.45);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;font-size:12.5px;font-weight:700;user-select:none;cursor:pointer">'
+    +'<a id="langZh" style="padding:4px 11px;border-radius:6px;text-decoration:none;transition:all .15s">中文</a>'
+    +'<a id="langEn" style="padding:4px 11px;border-radius:6px;text-decoration:none;transition:all .15s">EN</a></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+  var z=document.getElementById('langZh'), e=document.getElementById('langEn');
+  function mkHref(l){var u=new URL(location.href);u.searchParams.set('lang',l);return u.pathname+u.search;}
+  z.setAttribute('href', mkHref('zh')); e.setAttribute('href', mkHref('en'));
+  var active=(lang==='en')?e:z, idle=(lang==='en')?z:e;
+  active.style.background='#e0a94a'; active.style.color='#0e1420';
+  idle.style.background='transparent'; idle.style.color='#9fb0c8';
+  // 顶栏 clock 右移让位给切换器
+  var clk=document.querySelector('.termbar .clock'); if(clk) clk.style.marginRight='96px';
+})();
+
+
+function jump(id){
+  var el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>

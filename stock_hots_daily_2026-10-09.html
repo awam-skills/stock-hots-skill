@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A股龙虎榜情绪日报 · 2026-10-09</title>
+<style>
+  :root {
+    --bg:#0a0e14; --panel:#121821; --panel2:#0f141c; --border:#1e2734;
+    --text:#e6edf3; --muted:#8b97a7; --dim:#5b6675;
+    --up:#f6465d; --down:#0ecb81; --accent:#f0883e; --gold:#e3b341;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:
+    radial-gradient(1200px 600px at 80% -10%, #14202e 0%, transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, #16121f 0%, transparent 55%),
+    var(--bg);
+    color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1180px; margin:0 auto; padding:22px 18px 60px; }
+  header.hero { border:1px solid var(--border); border-radius:14px; padding:20px 22px;
+    background:linear-gradient(135deg,#10161f 0%,#0c1119 100%); position:relative; overflow:hidden; }
+  header.hero::before { content:""; position:absolute; right:-40px; top:-40px; width:220px; height:220px;
+    background:radial-gradient(circle, rgba(246,70,93,.18), transparent 70%); }
+  .kicker { color:var(--accent); font-size:12px; letter-spacing:2px; font-weight:600; }
+  h1 { margin:6px 0 4px; font-size:27px; letter-spacing:1px; }
+  .sub { color:var(--muted); font-size:13px; }
+  .datepill { display:inline-block; margin-top:10px; padding:4px 12px; border:1px solid var(--border);
+    border-radius:20px; color:var(--gold); font-size:13px; font-weight:600; }
+  .ov { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0 6px; }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px; }
+  .card .lab { color:var(--muted); font-size:12px; }
+  .card .val { font-size:25px; font-weight:700; margin-top:6px; letter-spacing:.5px; }
+  .card .note { color:var(--dim); font-size:11.5px; margin-top:3px; }
+  .val.up { color:var(--up); } .val.down { color:var(--down); } .val.gold { color:var(--gold); }
+  section { margin-top:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel2); overflow:hidden; }
+  .shead { display:flex; align-items:baseline; gap:12px; padding:13px 18px; border-bottom:1px solid var(--border);
+    background:linear-gradient(90deg,#141b25,#0f141c); }
+  .shead h2 { margin:0; font-size:16px; }
+  .shead .note { color:var(--dim); font-size:12px; }
+  .sbody { padding:14px 18px 18px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .subh { font-size:13px; color:var(--muted); margin:0 0 6px; font-weight:600; }
+  .subh .tag { color:var(--up); } .subh .tagd { color:var(--down); }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th,td { text-align:left; padding:6px 8px; border-bottom:1px solid #18202b; }
+  th { color:var(--muted); font-weight:600; font-size:11.5px; }
+  td.mono { font-family:"SFMono-Regular",Consolas,monospace; color:var(--dim); }
+  td.reason { color:var(--text); font-size:11.5px; }
+  .up { color:var(--up); } .down { color:var(--down); }
+  tr:hover td { background:#10161f; }
+  .legend { font-size:11.5px; color:var(--dim); margin-top:6px; }
+  .legend .up { color:var(--up); } .legend .down { color:var(--down); }
+  footer { margin-top:26px; padding:16px 18px; border:1px solid var(--border); border-radius:12px;
+    background:var(--panel); color:var(--muted); font-size:12px; }
+  footer b { color:var(--text); }
+  .warn { color:var(--gold); margin-top:8px; }
+  @media (max-width:760px) { .ov{grid-template-columns:repeat(2,1fr);} .grid2{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">A-SHARE MARKET SENTIMENT · 收盘复盘</div>
+  <h1>A股龙虎榜情绪日报</h1>
+  <div class="sub">龙虎榜资金动向 · 题材热点归因 · 行业轮动全景 —— 由「A股全栈数据」skill 抓取</div>
+  <div class="datepill">报告交易日：2026-10-09（最新交易日）</div>
+</header>
+
+<!-- 概览 -->
+<div class="ov">
+  <div class="card">
+    <div class="lab">龙虎榜上榜</div>
+    <div class="val gold">82<span style="font-size:14px;color:var(--muted)"> 家</span></div>
+    <div class="note">净买入为正 39 / 为负 42</div>
+  </div>
+  <div class="card">
+    <div class="lab">净买入合计</div>
+    <div class="val up">+9.00亿</div>
+    <div class="note">全部上榜个股净买入求和</div>
+  </div>
+  <div class="card">
+    <div class="lab">最热题材</div>
+    <div class="val" style="color:var(--accent)">固态电池</div>
+    <div class="note">4 只强势股共振</div>
+  </div>
+  <div class="card">
+    <div class="lab">领涨 / 领跌行业</div>
+    <div class="val up">传媒娱乐 +6.01%</div>
+    <div class="note">领跌 陶瓷行业 -5.16%</div>
+  </div>
+</div>
+
+<!-- 题材热度 -->
+<section>
+  <div class="shead"><h2>题材热度榜</h2><span class="note">同花顺强势股 reason 按「+」拆分词频统计 · TOP 15</span></div>
+  <div class="sbody">
+    <p class="subh">出现次数越多 = 当日题材共振越强</p>
+    <svg viewBox="0 0 720 342" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit">
+<text x="0" y="20" fill="#c9d4e3" font-size="13">固态电池</text>
+<rect x="130" y="9" width="460.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="598.0" y="21" fill="#f0883e" font-size="12.5" font-weight="600">4</text>
+<text x="0" y="42" fill="#c9d4e3" font-size="13">创新药</text>
+<rect x="130" y="31" width="460.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="598.0" y="43" fill="#f0883e" font-size="12.5" font-weight="600">4</text>
+<text x="0" y="64" fill="#c9d4e3" font-size="13">AI漫剧</text>
+<rect x="130" y="53" width="460.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="598.0" y="65" fill="#f0883e" font-size="12.5" font-weight="600">4</text>
+<text x="0" y="86" fill="#c9d4e3" font-size="13">网络安全</text>
+<rect x="130" y="75" width="345.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="483.0" y="87" fill="#f0883e" font-size="12.5" font-weight="600">3</text>
+<text x="0" y="108" fill="#c9d4e3" font-size="13">AI短剧</text>
+<rect x="130" y="97" width="345.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="483.0" y="109" fill="#f0883e" font-size="12.5" font-weight="600">3</text>
+<text x="0" y="130" fill="#c9d4e3" font-size="13">微短剧</text>
+<rect x="130" y="119" width="345.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="483.0" y="131" fill="#f0883e" font-size="12.5" font-weight="600">3</text>
+<text x="0" y="152" fill="#c9d4e3" font-size="13">抗生素</text>
+<rect x="130" y="141" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="153" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="174" fill="#c9d4e3" font-size="13">有机硅</text>
+<rect x="130" y="163" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="175" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="196" fill="#c9d4e3" font-size="13">全产业链</text>
+<rect x="130" y="185" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="197" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="218" fill="#c9d4e3" font-size="13">上海国资</text>
+<rect x="130" y="207" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="219" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="240" fill="#c9d4e3" font-size="13">玉米种业</text>
+<rect x="130" y="229" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="241" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="262" fill="#c9d4e3" font-size="13">商业综合体</text>
+<rect x="130" y="251" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="263" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="284" fill="#c9d4e3" font-size="13">人工智能安全</text>
+<rect x="130" y="273" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="285" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="306" fill="#c9d4e3" font-size="13">业绩增长</text>
+<rect x="130" y="295" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="307" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+<text x="0" y="328" fill="#c9d4e3" font-size="13">半年报增长</text>
+<rect x="130" y="317" width="230.0" height="15" rx="2" fill="#f0883e" opacity="0.92"/>
+<text x="368.0" y="329" fill="#f0883e" font-size="12.5" font-weight="600">2</text>
+</svg>
+  </div>
+</section>
+
+<!-- 行业轮动 -->
+<section>
+  <div class="shead"><h2>行业轮动</h2><span class="note">新浪财经行业板块 · 共 49 个行业 · 涨红跌绿</span></div>
+  <div class="sbody">
+    <div class="grid2">
+      <div>
+        <p class="subh"><span class="tag">涨幅榜 TOP 10</span> · 领涨</p>
+        <svg viewBox="0 0 720 232" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit">
+<text x="0" y="20" fill="#c9d4e3" font-size="13">传媒娱乐</text>
+<rect x="130" y="9" width="460.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="598.0" y="21" fill="#f6465d" font-size="12.5" font-weight="600">+6.01%</text>
+<text x="0" y="42" fill="#c9d4e3" font-size="13">商业百货</text>
+<rect x="130" y="31" width="223.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="361.0" y="43" fill="#f6465d" font-size="12.5" font-weight="600">+2.91%</text>
+<text x="0" y="64" fill="#c9d4e3" font-size="13">印刷包装</text>
+<rect x="130" y="53" width="209.4" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="347.4" y="65" fill="#f6465d" font-size="12.5" font-weight="600">+2.74%</text>
+<text x="0" y="86" fill="#c9d4e3" font-size="13">农林牧渔</text>
+<rect x="130" y="75" width="207.5" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="345.5" y="87" fill="#f6465d" font-size="12.5" font-weight="600">+2.71%</text>
+<text x="0" y="108" fill="#c9d4e3" font-size="13">纺织机械</text>
+<rect x="130" y="97" width="185.2" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="323.2" y="109" fill="#f6465d" font-size="12.5" font-weight="600">+2.42%</text>
+<text x="0" y="130" fill="#c9d4e3" font-size="13">服装鞋类</text>
+<rect x="130" y="119" width="167.6" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="305.6" y="131" fill="#f6465d" font-size="12.5" font-weight="600">+2.19%</text>
+<text x="0" y="152" fill="#c9d4e3" font-size="13">物资外贸</text>
+<rect x="130" y="141" width="145.1" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="283.1" y="153" fill="#f6465d" font-size="12.5" font-weight="600">+1.90%</text>
+<text x="0" y="174" fill="#c9d4e3" font-size="13">生物制药</text>
+<rect x="130" y="163" width="134.7" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="272.7" y="175" fill="#f6465d" font-size="12.5" font-weight="600">+1.76%</text>
+<text x="0" y="196" fill="#c9d4e3" font-size="13">公路桥梁</text>
+<rect x="130" y="185" width="124.1" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="262.1" y="197" fill="#f6465d" font-size="12.5" font-weight="600">+1.62%</text>
+<text x="0" y="218" fill="#c9d4e3" font-size="13">农药化肥</text>
+<rect x="130" y="207" width="93.3" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="231.3" y="219" fill="#f6465d" font-size="12.5" font-weight="600">+1.22%</text>
+</svg>
+      </div>
+      <div>
+        <p class="subh"><span class="tagd">涨幅垫底 TOP 10</span> · 最弱</p>
+        <svg viewBox="0 0 720 232" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit">
+<text x="0" y="20" fill="#c9d4e3" font-size="13">陶瓷行业</text>
+<rect x="130" y="9" width="460.0" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="598.0" y="21" fill="#0ecb81" font-size="12.5" font-weight="600">-5.16%</text>
+<text x="0" y="42" fill="#c9d4e3" font-size="13">玻璃行业</text>
+<rect x="130" y="31" width="240.5" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="378.5" y="43" fill="#0ecb81" font-size="12.5" font-weight="600">-2.70%</text>
+<text x="0" y="64" fill="#c9d4e3" font-size="13">船舶制造</text>
+<rect x="130" y="53" width="202.1" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="340.1" y="65" fill="#0ecb81" font-size="12.5" font-weight="600">-2.27%</text>
+<text x="0" y="86" fill="#c9d4e3" font-size="13">飞机制造</text>
+<rect x="130" y="75" width="177.8" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="315.8" y="87" fill="#0ecb81" font-size="12.5" font-weight="600">-2.00%</text>
+<text x="0" y="108" fill="#c9d4e3" font-size="13">电子器件</text>
+<rect x="130" y="97" width="145.7" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="283.7" y="109" fill="#0ecb81" font-size="12.5" font-weight="600">-1.64%</text>
+<text x="0" y="130" fill="#c9d4e3" font-size="13">开发区</text>
+<rect x="130" y="119" width="97.6" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="235.6" y="131" fill="#0ecb81" font-size="12.5" font-weight="600">-1.10%</text>
+<text x="0" y="152" fill="#c9d4e3" font-size="13">机械行业</text>
+<rect x="130" y="141" width="87.4" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="225.4" y="153" fill="#0ecb81" font-size="12.5" font-weight="600">-0.98%</text>
+<text x="0" y="174" fill="#c9d4e3" font-size="13">石油行业</text>
+<rect x="130" y="163" width="40.6" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="178.6" y="175" fill="#0ecb81" font-size="12.5" font-weight="600">-0.46%</text>
+<text x="0" y="196" fill="#c9d4e3" font-size="13">发电设备</text>
+<rect x="130" y="185" width="31.5" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="169.5" y="197" fill="#0ecb81" font-size="12.5" font-weight="600">-0.35%</text>
+<text x="0" y="218" fill="#c9d4e3" font-size="13">钢铁行业</text>
+<rect x="130" y="207" width="23.9" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="161.9" y="219" fill="#0ecb81" font-size="12.5" font-weight="600">-0.27%</text>
+</svg>
+      </div>
+    </div>
+    <p class="subh" style="margin-top:18px">领涨行业 TOP 10 明细</p>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>行业</th><th>涨跌幅</th><th style="text-align:right">成分股</th><th>领涨股</th><th>领涨股涨跌幅</th><th style="text-align:right">成交额</th></tr></thead>
+      <tbody>
+      <tr>
+<td>传媒娱乐</td>
+<td class="up">+6.01%</td>
+<td style="text-align:right">40</td>
+<td>中文在线</td>
+<td class="up">+20.01%</td>
+<td style="text-align:right">132.7亿</td></tr>
+<tr>
+<td>商业百货</td>
+<td class="up">+2.91%</td>
+<td style="text-align:right">93</td>
+<td>芒果超媒</td>
+<td class="up">+19.98%</td>
+<td style="text-align:right">181.4亿</td></tr>
+<tr>
+<td>印刷包装</td>
+<td class="up">+2.74%</td>
+<td style="text-align:right">20</td>
+<td>蓝色光标</td>
+<td class="up">+6.80%</td>
+<td style="text-align:right">53.7亿</td></tr>
+<tr>
+<td>农林牧渔</td>
+<td class="up">+2.71%</td>
+<td style="text-align:right">64</td>
+<td>神农种业</td>
+<td class="up">+10.40%</td>
+<td style="text-align:right">216.4亿</td></tr>
+<tr>
+<td>纺织机械</td>
+<td class="up">+2.42%</td>
+<td style="text-align:right">8</td>
+<td>上工申贝</td>
+<td class="up">+9.95%</td>
+<td style="text-align:right">8.1亿</td></tr>
+<tr>
+<td>服装鞋类</td>
+<td class="up">+2.19%</td>
+<td style="text-align:right">49</td>
+<td>九牧王</td>
+<td class="up">+9.98%</td>
+<td style="text-align:right">102.2亿</td></tr>
+<tr>
+<td>物资外贸</td>
+<td class="up">+1.90%</td>
+<td style="text-align:right">21</td>
+<td>时代万恒</td>
+<td class="up">+10.01%</td>
+<td style="text-align:right">24.2亿</td></tr>
+<tr>
+<td>生物制药</td>
+<td class="up">+1.76%</td>
+<td style="text-align:right">155</td>
+<td>华北制药</td>
+<td class="up">+10.04%</td>
+<td style="text-align:right">455.2亿</td></tr>
+<tr>
+<td>公路桥梁</td>
+<td class="up">+1.62%</td>
+<td style="text-align:right">20</td>
+<td>山东高速</td>
+<td class="up">+3.12%</td>
+<td style="text-align:right">16.8亿</td></tr>
+<tr>
+<td>农药化肥</td>
+<td class="up">+1.22%</td>
+<td style="text-align:right">46</td>
+<td>华邦健康</td>
+<td class="up">+5.06%</td>
+<td style="text-align:right">89.2亿</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="subh" style="margin-top:16px">领跌行业 TOP 10 明细</p>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>行业</th><th>涨跌幅</th><th style="text-align:right">成分股</th><th>领涨股</th><th>领涨股涨跌幅</th><th style="text-align:right">成交额</th></tr></thead>
+      <tbody>
+      <tr>
+<td>陶瓷行业</td>
+<td class="down">-5.16%</td>
+<td style="text-align:right">8</td>
+<td>开尔新材</td>
+<td class="up">+11.28%</td>
+<td style="text-align:right">37.0亿</td></tr>
+<tr>
+<td>玻璃行业</td>
+<td class="down">-2.70%</td>
+<td style="text-align:right">19</td>
+<td>华建集团</td>
+<td class="up">+10.01%</td>
+<td style="text-align:right">136.7亿</td></tr>
+<tr>
+<td>船舶制造</td>
+<td class="down">-2.27%</td>
+<td style="text-align:right">8</td>
+<td>ST亚光</td>
+<td class="up">+0.96%</td>
+<td style="text-align:right">58.9亿</td></tr>
+<tr>
+<td>飞机制造</td>
+<td class="down">-2.00%</td>
+<td style="text-align:right">14</td>
+<td>威海广泰</td>
+<td class="up">+1.64%</td>
+<td style="text-align:right">59.6亿</td></tr>
+<tr>
+<td>电子器件</td>
+<td class="down">-1.64%</td>
+<td style="text-align:right">152</td>
+<td>科恒股份</td>
+<td class="up">+15.89%</td>
+<td style="text-align:right">1301.4亿</td></tr>
+<tr>
+<td>开发区</td>
+<td class="down">-1.10%</td>
+<td style="text-align:right">10</td>
+<td>张江高科</td>
+<td class="up">+1.86%</td>
+<td style="text-align:right">16.8亿</td></tr>
+<tr>
+<td>机械行业</td>
+<td class="down">-0.98%</td>
+<td style="text-align:right">211</td>
+<td>新筑股份</td>
+<td class="up">+10.09%</td>
+<td style="text-align:right">718.0亿</td></tr>
+<tr>
+<td>石油行业</td>
+<td class="down">-0.46%</td>
+<td style="text-align:right">24</td>
+<td>新锦动力</td>
+<td class="up">+1.09%</td>
+<td style="text-align:right">64.9亿</td></tr>
+<tr>
+<td>发电设备</td>
+<td class="down">-0.35%</td>
+<td style="text-align:right">65</td>
+<td>天融信</td>
+<td class="up">+10.04%</td>
+<td style="text-align:right">212.7亿</td></tr>
+<tr>
+<td>钢铁行业</td>
+<td class="down">-0.27%</td>
+<td style="text-align:right">60</td>
+<td>妙可蓝多</td>
+<td class="up">+9.99%</td>
+<td style="text-align:right">125.2亿</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="legend"><span class="up">红 = 上涨</span> &nbsp; <span class="down">绿 = 下跌</span> &nbsp;|&nbsp; 数据来源：新浪财经行业板块（Sina sinaindustry，共 49 个行业，按涨跌幅排序；领涨股/成分股数为该板块当日数据）。注：东方财富行业板块接口（push2）在本运行环境被网络策略拦截，故行业部分改用新浪财经真实数据。</div>
+  </div>
+</section>
+
+<!-- 龙虎榜核心 -->
+<section>
+  <div class="shead"><h2>龙虎榜核心</h2><span class="note">全市场上榜 · 按净买入降序 · 正红负绿</span></div>
+  <div class="sbody">
+    <div class="grid2">
+      <div>
+        <p class="subh"><span class="tag">净买入 TOP 15</span> 排名</p>
+        <svg viewBox="0 0 720 342" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit">
+<text x="0" y="20" fill="#c9d4e3" font-size="13">东岳硅材</text>
+<rect x="130" y="9" width="460.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="598.0" y="21" fill="#f6465d" font-size="12.5" font-weight="600">+1.88亿</text>
+<text x="0" y="42" fill="#c9d4e3" font-size="13">吉林化纤</text>
+<rect x="130" y="31" width="437.4" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="575.4" y="43" fill="#f6465d" font-size="12.5" font-weight="600">+1.78亿</text>
+<text x="0" y="64" fill="#c9d4e3" font-size="13">绿盟科技</text>
+<rect x="130" y="53" width="412.1" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="550.1" y="65" fill="#f6465d" font-size="12.5" font-weight="600">+1.68亿</text>
+<text x="0" y="86" fill="#c9d4e3" font-size="13">雄韬股份</text>
+<rect x="130" y="75" width="385.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="523.0" y="87" fill="#f6465d" font-size="12.5" font-weight="600">+1.57亿</text>
+<text x="0" y="108" fill="#c9d4e3" font-size="13">中文在线</text>
+<rect x="130" y="97" width="350.8" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="488.8" y="109" fill="#f6465d" font-size="12.5" font-weight="600">+1.43亿</text>
+<text x="0" y="130" fill="#c9d4e3" font-size="13">九阳股份</text>
+<rect x="130" y="119" width="336.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="474.0" y="131" fill="#f6465d" font-size="12.5" font-weight="600">+1.37亿</text>
+<text x="0" y="152" fill="#c9d4e3" font-size="13">中红医疗</text>
+<rect x="130" y="141" width="309.9" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="447.9" y="153" fill="#f6465d" font-size="12.5" font-weight="600">+1.26亿</text>
+<text x="0" y="174" fill="#c9d4e3" font-size="13">天融信</text>
+<rect x="130" y="163" width="296.5" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="434.5" y="175" fill="#f6465d" font-size="12.5" font-weight="600">+1.21亿</text>
+<text x="0" y="196" fill="#c9d4e3" font-size="13">金安国纪</text>
+<rect x="130" y="185" width="276.8" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="414.8" y="197" fill="#f6465d" font-size="12.5" font-weight="600">+1.13亿</text>
+<text x="0" y="218" fill="#c9d4e3" font-size="13">吉视传媒</text>
+<rect x="130" y="207" width="260.4" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="398.4" y="219" fill="#f6465d" font-size="12.5" font-weight="600">+1.06亿</text>
+<text x="0" y="240" fill="#c9d4e3" font-size="13">敦煌种业</text>
+<rect x="130" y="229" width="215.4" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="353.4" y="241" fill="#f6465d" font-size="12.5" font-weight="600">+8,783万</text>
+<text x="0" y="262" fill="#c9d4e3" font-size="13">格尔软件</text>
+<rect x="130" y="251" width="198.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="336.0" y="263" fill="#f6465d" font-size="12.5" font-weight="600">+8,074万</text>
+<text x="0" y="284" fill="#c9d4e3" font-size="13">中红医疗</text>
+<rect x="130" y="273" width="194.4" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="332.4" y="285" fill="#f6465d" font-size="12.5" font-weight="600">+7,929万</text>
+<text x="0" y="306" fill="#c9d4e3" font-size="13">大元泵业</text>
+<rect x="130" y="295" width="187.0" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="325.0" y="307" fill="#f6465d" font-size="12.5" font-weight="600">+7,627万</text>
+<text x="0" y="328" fill="#c9d4e3" font-size="13">神农种业</text>
+<rect x="130" y="317" width="176.1" height="15" rx="2" fill="#f6465d" opacity="0.92"/>
+<text x="314.1" y="329" fill="#f6465d" font-size="12.5" font-weight="600">+7,182万</text>
+</svg>
+      </div>
+      <div>
+        <p class="subh"><span class="tagd">净卖出 TOP 8</span> 资金出逃</p>
+        <svg viewBox="0 0 720 188" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit">
+<text x="0" y="20" fill="#c9d4e3" font-size="13">宏昌电子</text>
+<rect x="130" y="9" width="460.0" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="598.0" y="21" fill="#0ecb81" font-size="12.5" font-weight="600">-2.76亿</text>
+<text x="0" y="42" fill="#c9d4e3" font-size="13">金牛化工</text>
+<rect x="130" y="31" width="202.4" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="340.4" y="43" fill="#0ecb81" font-size="12.5" font-weight="600">-1.21亿</text>
+<text x="0" y="64" fill="#c9d4e3" font-size="13">世联行</text>
+<rect x="130" y="53" width="167.8" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="305.8" y="65" fill="#0ecb81" font-size="12.5" font-weight="600">-1.01亿</text>
+<text x="0" y="86" fill="#c9d4e3" font-size="13">陆家嘴</text>
+<rect x="130" y="75" width="164.0" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="302.0" y="87" fill="#0ecb81" font-size="12.5" font-weight="600">-9,830万</text>
+<text x="0" y="108" fill="#c9d4e3" font-size="13">百合花</text>
+<rect x="130" y="97" width="155.8" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="293.8" y="109" fill="#0ecb81" font-size="12.5" font-weight="600">-9,340万</text>
+<text x="0" y="130" fill="#c9d4e3" font-size="13">ST联光</text>
+<rect x="130" y="119" width="119.3" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="257.3" y="131" fill="#0ecb81" font-size="12.5" font-weight="600">-7,153万</text>
+<text x="0" y="152" fill="#c9d4e3" font-size="13">海南橡胶</text>
+<rect x="130" y="141" width="106.3" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="244.3" y="153" fill="#0ecb81" font-size="12.5" font-weight="600">-6,369万</text>
+<text x="0" y="174" fill="#c9d4e3" font-size="13">博纳影业</text>
+<rect x="130" y="163" width="101.3" height="15" rx="2" fill="#0ecb81" opacity="0.92"/>
+<text x="239.3" y="175" fill="#0ecb81" font-size="12.5" font-weight="600">-6,071万</text>
+</svg>
+      </div>
+    </div>
+
+    <p class="subh" style="margin-top:18px">净买入 TOP 20 明细</p>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>代码</th><th>名称</th><th>涨跌幅</th><th>净买入</th><th>上榜原因</th><th>换手</th></tr></thead>
+      <tbody>
+      <tr>
+<td class="mono">300821</td>
+<td>东岳硅材</td>
+<td class="up">+20.01%</td>
+<td class="up">+1.88亿</td>
+<td class="reason">日涨幅达到15%的前5只证券</td>
+<td>12.56%</td></tr>
+<tr>
+<td class="mono">000420</td>
+<td>吉林化纤</td>
+<td class="up">+10.12%</td>
+<td class="up">+1.78亿</td>
+<td class="reason">日涨幅偏离值达到7%的前5只证券</td>
+<td>9.76%</td></tr>
+<tr>
+<td class="mono">300369</td>
+<td>绿盟科技</td>
+<td class="up">+20.02%</td>
+<td class="up">+1.68亿</td>
+<td class="reason">日涨幅达到15%的前5只证券</td>
+<td>13.07%</td></tr>
+<tr>
+<td class="mono">002733</td>
+<td>雄韬股份</td>
+<td class="up">+10.01%</td>
+<td class="up">+1.57亿</td>
+<td class="reason">连续三个交易日内，涨幅偏离值累计达到20%的证券</td>
+<td>5.71%</td></tr>
+<tr>
+<td class="mono">300364</td>
+<td>中文在线</td>
+<td class="up">+20.01%</td>
+<td class="up">+1.43亿</td>
+<td class="reason">日涨幅达到15%的前5只证券</td>
+<td>12.58%</td></tr>
+<tr>
+<td class="mono">002242</td>
+<td>九阳股份</td>
+<td class="up">+10.04%</td>
+<td class="up">+1.37亿</td>
+<td class="reason">日涨幅偏离值达到7%的前5只证券</td>
+<td>18.28%</td></tr>
+<tr>
+<td class="mono">300981</td>
+<td>中红医疗</td>
+<td class="up">+19.98%</td>
+<td class="up">+1.26亿</td>
+<td class="reason">日涨幅达到15%的前5只证券</td>
+<td>8.91%</td></tr>
+<tr>
+<td class="mono">002212</td>
+<td>天融信</td>
+<td class="up">+10.04%</td>
+<td class="up">+1.21亿</td>
+<td class="reason">日涨幅偏离值达到7%的前5只证券</td>
+<td>10.56%</td></tr>
+<tr>
+<td class="mono">002636</td>
+<td>金安国纪</td>
+<td class="down">-10.00%</td>
+<td class="up">+1.13亿</td>
+<td class="reason">日跌幅偏离值达到7%的前5只证券</td>
+<td>5.37%</td></tr>
+<tr>
+<td class="mono">601929</td>
+<td>吉视传媒</td>
+<td class="up">+10.13%</td>
+<td class="up">+1.06亿</td>
+<td class="reason">有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券</td>
+<td>5.72%</td></tr>
+<tr>
+<td class="mono">600354</td>
+<td>敦煌种业</td>
+<td class="up">+10.02%</td>
+<td class="up">+8,783万</td>
+<td class="reason">有价格涨跌幅限制的日换手率达到20%的前五只证券</td>
+<td>23.67%</td></tr>
+<tr>
+<td class="mono">603232</td>
+<td>格尔软件</td>
+<td class="up">+9.97%</td>
+<td class="up">+8,074万</td>
+<td class="reason">有价格涨跌幅限制的日价格振幅达到15%的前五只证券</td>
+<td>10.83%</td></tr>
+<tr>
+<td class="mono">300981</td>
+<td>中红医疗</td>
+<td class="up">+19.98%</td>
+<td class="up">+7,929万</td>
+<td class="reason">连续三个交易日内，涨幅偏离值累计达到30%的证券</td>
+<td>8.91%</td></tr>
+<tr>
+<td class="mono">603757</td>
+<td>大元泵业</td>
+<td class="up">+4.55%</td>
+<td class="up">+7,627万</td>
+<td class="reason">有价格涨跌幅限制的日价格振幅达到15%的前五只证券</td>
+<td>6.87%</td></tr>
+<tr>
+<td class="mono">300189</td>
+<td>神农种业</td>
+<td class="up">+10.40%</td>
+<td class="up">+7,182万</td>
+<td class="reason">日换手率达到30%的前5只证券</td>
+<td>34.05%</td></tr>
+<tr>
+<td class="mono">301689</td>
+<td>电科思仪</td>
+<td class="down">-1.65%</td>
+<td class="up">+7,122万</td>
+<td class="reason">日换手率达到30%的前5只证券</td>
+<td>32.23%</td></tr>
+<tr>
+<td class="mono">600400</td>
+<td>红豆股份</td>
+<td class="up">+9.94%</td>
+<td class="up">+6,929万</td>
+<td class="reason">非S证券连续三个交易日内收盘价格涨幅偏离值累计达到20%的证券</td>
+<td>8.51%</td></tr>
+<tr>
+<td class="mono">600127</td>
+<td>金健米业</td>
+<td class="up">+10.00%</td>
+<td class="up">+6,014万</td>
+<td class="reason">有价格涨跌幅限制的日换手率达到20%的前五只证券</td>
+<td>31.47%</td></tr>
+<tr>
+<td class="mono">002317</td>
+<td>众生药业</td>
+<td class="up">+10.01%</td>
+<td class="up">+5,768万</td>
+<td class="reason">日涨幅偏离值达到7%的前5只证券</td>
+<td>6.43%</td></tr>
+<tr>
+<td class="mono">688152</td>
+<td>麒麟信安</td>
+<td class="up">+19.99%</td>
+<td class="up">+5,089万</td>
+<td class="reason">有价格涨跌幅限制的日收盘价格涨幅达到15%的前五只证券</td>
+<td>11.24%</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="subh" style="margin-top:16px">净卖出 TOP 8（资金出逃）</p>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>代码</th><th>名称</th><th>涨跌幅</th><th>净买入</th><th>上榜原因</th><th>换手</th></tr></thead>
+      <tbody>
+      <tr>
+<td class="mono">603002</td>
+<td>宏昌电子</td>
+<td class="down">-5.40%</td>
+<td class="down">-2.76亿</td>
+<td class="reason">有价格涨跌幅限制的日价格振幅达到15%的前五只证券</td>
+<td>14.03%</td></tr>
+<tr>
+<td class="mono">600722</td>
+<td>金牛化工</td>
+<td class="up">+4.26%</td>
+<td class="down">-1.21亿</td>
+<td class="reason">有价格涨跌幅限制的日换手率达到20%的前五只证券</td>
+<td>23.27%</td></tr>
+<tr>
+<td class="mono">002285</td>
+<td>世联行</td>
+<td class="up">+1.87%</td>
+<td class="down">-1.01亿</td>
+<td class="reason">日振幅值达到15%的前5只证券</td>
+<td>16.73%</td></tr>
+<tr>
+<td class="mono">600663</td>
+<td>陆家嘴</td>
+<td class="down">-8.72%</td>
+<td class="down">-9,830万</td>
+<td class="reason">有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券</td>
+<td>2.27%</td></tr>
+<tr>
+<td class="mono">603823</td>
+<td>百合花</td>
+<td class="down">-10.00%</td>
+<td class="down">-9,340万</td>
+<td class="reason">有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券</td>
+<td>4.88%</td></tr>
+<tr>
+<td class="mono">600363</td>
+<td>ST联光</td>
+<td class="down">-6.56%</td>
+<td class="down">-7,153万</td>
+<td class="reason">非S证券连续三个交易日内收盘价格跌幅偏离值累计达到20%的证券</td>
+<td>19.79%</td></tr>
+<tr>
+<td class="mono">601118</td>
+<td>海南橡胶</td>
+<td class="up">+9.98%</td>
+<td class="down">-6,369万</td>
+<td class="reason">非S证券连续三个交易日内收盘价格涨幅偏离值累计达到20%的证券</td>
+<td>6.64%</td></tr>
+<tr>
+<td class="mono">001330</td>
+<td>博纳影业</td>
+<td class="up">+9.94%</td>
+<td class="down">-6,071万</td>
+<td class="reason">日涨幅偏离值达到7%的前5只证券</td>
+<td>20.92%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- 强势股题材归因 -->
+<section>
+  <div class="shead"><h2>强势股题材归因</h2><span class="note">同花顺当日强势股 72 只 · 按涨幅降序取前 20</span></div>
+  <div class="sbody">
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>代码</th><th>名称</th><th>涨幅</th><th>换手</th><th>题材归因</th></tr></thead>
+      <tbody>
+      <tr>
+<td class="mono">300369</td>
+<td>绿盟科技</td>
+<td class="up">+20.02%</td>
+<td>13.07%</td>
+<td class="reason">人工智能安全+智算中心+网络安全</td></tr>
+<tr>
+<td class="mono">300530</td>
+<td>领湃科技</td>
+<td class="up">+20.02%</td>
+<td>15.04%</td>
+<td class="reason">储能电池+新能源综合服务+衡阳国资</td></tr>
+<tr>
+<td class="mono">300821</td>
+<td>东岳硅材</td>
+<td class="up">+20.01%</td>
+<td>12.56%</td>
+<td class="reason">三季报预增+有机硅+全产业链</td></tr>
+<tr>
+<td class="mono">300364</td>
+<td>中文在线</td>
+<td class="up">+20.01%</td>
+<td>12.58%</td>
+<td class="reason">AI短剧+AI视频+海外短剧</td></tr>
+<tr>
+<td class="mono">688152</td>
+<td>麒麟信安</td>
+<td class="up">+20.00%</td>
+<td>11.24%</td>
+<td class="reason">信息安全+国产操作系统+智算一体机</td></tr>
+<tr>
+<td class="mono">300981</td>
+<td>中红医疗</td>
+<td class="up">+19.98%</td>
+<td>8.91%</td>
+<td class="reason">医用手套+业绩高增+海外产能</td></tr>
+<tr>
+<td class="mono">300413</td>
+<td>芒果超媒</td>
+<td class="up">+19.98%</td>
+<td>11.17%</td>
+<td class="reason">AIGC长剧+微短剧+长视频</td></tr>
+<tr>
+<td class="mono">601929</td>
+<td>吉视传媒</td>
+<td class="up">+10.13%</td>
+<td>5.72%</td>
+<td class="reason">智慧广电+AI微短剧+AI应用+算力租赁</td></tr>
+<tr>
+<td class="mono">000420</td>
+<td>吉林化纤</td>
+<td class="up">+10.12%</td>
+<td>9.76%</td>
+<td class="reason">碳纤维+粘胶长丝+国企</td></tr>
+<tr>
+<td class="mono">002480</td>
+<td>新筑股份</td>
+<td class="up">+10.09%</td>
+<td>6.40%</td>
+<td class="reason">清洁能源+重大重组+四川国资</td></tr>
+<tr>
+<td class="mono">002696</td>
+<td>百洋股份</td>
+<td class="up">+10.07%</td>
+<td>9.18%</td>
+<td class="reason">水产品加工+水产饲料+青岛国资</td></tr>
+<tr>
+<td class="mono">603101</td>
+<td>汇嘉时代</td>
+<td class="up">+10.05%</td>
+<td>3.99%</td>
+<td class="reason">超市调改+新疆零售+商业综合体</td></tr>
+<tr>
+<td class="mono">002212</td>
+<td>天融信</td>
+<td class="up">+10.04%</td>
+<td>10.56%</td>
+<td class="reason">人工智能安全+智算云+网络安全</td></tr>
+<tr>
+<td class="mono">600865</td>
+<td>百大集团</td>
+<td class="up">+10.04%</td>
+<td>10.85%</td>
+<td class="reason">商业零售+物业租赁+政府补助</td></tr>
+<tr>
+<td class="mono">600812</td>
+<td>华北制药</td>
+<td class="up">+10.04%</td>
+<td>6.75%</td>
+<td class="reason">鼠疫+抗生素+创新药+集采</td></tr>
+<tr>
+<td class="mono">002242</td>
+<td>九阳股份</td>
+<td class="up">+10.04%</td>
+<td>18.28%</td>
+<td class="reason">机器人投资+厨房小家电+内容电商</td></tr>
+<tr>
+<td class="mono">603096</td>
+<td>新经典</td>
+<td class="up">+10.03%</td>
+<td>2.80%</td>
+<td class="reason">图书出版+AI应用+内容IP</td></tr>
+<tr>
+<td class="mono">600621</td>
+<td>华鑫股份</td>
+<td class="up">+10.03%</td>
+<td>4.72%</td>
+<td class="reason">证券经纪+金融科技+上海国资</td></tr>
+<tr>
+<td class="mono">000710</td>
+<td>贝瑞基因</td>
+<td class="up">+10.03%</td>
+<td>22.86%</td>
+<td class="reason">AI医疗+三代测序+基因检测</td></tr>
+<tr>
+<td class="mono">603838</td>
+<td>*ST四通</td>
+<td class="up">+10.03%</td>
+<td>1.34%</td>
+<td class="reason">陶瓷制造+锆钛精炼+摘帽申请</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><b>数据来源：</b>东方财富全市场龙虎榜（RPT_DAILYBILLBOARD_DETAILSNEW）· 同花顺当日强势股题材热点（zx.10jqka.com.cn）· 行业板块（新浪财经 Sina sinaindustry，因东方财富 push2 板块接口在本环境被网络策略拦截而改用）</div>
+  <div style="margin-top:6px"><b>交易日期：</b>2026-10-09（最新交易日） &nbsp;|&nbsp; 龙虎榜上榜 82 家 &nbsp;|&nbsp; 题材词频源自同花顺强势股 72 只 &nbsp;|&nbsp; 行业板块 49 个</div>
+  <div class="warn">⚠ 本报告由 AI 基于「A股全栈数据」skill 自动抓取生成，仅供研究参考，不构成任何投资建议。市场有风险，入市需谨慎。</div>
+</footer>
+
+</div>
+</body>
+</html>
